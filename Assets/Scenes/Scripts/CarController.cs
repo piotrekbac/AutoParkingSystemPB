@@ -133,16 +133,16 @@ public class CarController : MonoBehaviour
     // Metoda UpdateWheelPoses - metoda odpowiedzialna za aktualizacjê pozycji i rotacji modeli 3D kó³ na podstawie pozycji i rotacji Wheel Colliderów, aby zapewniæ poprawn¹ wizualizacjê kó³ podczas jazdy samochodu.
     private void UpdateWheelPoses()
     {
-        UpdateSinleWheel(frontLeftCollider, frontLeftVisual);     // Aktualizujê pozycjê i rotacjê modelu 3D przedniego lewego ko³a.
-        UpdateSinleWheel(frontRightCollider, frontRightVisual);   // Aktualizujê pozycjê i rotacjê modelu 3D przedniego prawego ko³a.
-        UpdateSinleWheel(rearLeftCollider, rearLeftVisual);       // Aktualizujê pozycjê i rotacjê modelu 3D tylnego lewego ko³a.
-        UpdateSinleWheel(rearRightCollider, rearRightVisual);     // Aktualizujê pozycjê i rotacjê modelu 3D tylnego prawego ko³a.
+        UpdateSingleWheel(frontLeftCollider, frontLeftVisual);     // Aktualizujê pozycjê i rotacjê modelu 3D przedniego lewego ko³a.
+        UpdateSingleWheel(frontRightCollider, frontRightVisual);   // Aktualizujê pozycjê i rotacjê modelu 3D przedniego prawego ko³a.
+        UpdateSingleWheel(rearLeftCollider, rearLeftVisual);       // Aktualizujê pozycjê i rotacjê modelu 3D tylnego lewego ko³a.
+        UpdateSingleWheel(rearRightCollider, rearRightVisual);     // Aktualizujê pozycjê i rotacjê modelu 3D tylnego prawego ko³a.
     }
 
 
     // Metoda UpdateSingleWheel - metoda pomocnicza, która aktualizuje pozycjê i rotacjê pojedynczego modelu 3D ko³a na podstawie pozycji i rotacji
     // odpowiadaj¹cego mu Wheel Collidera, aby zapewniæ poprawn¹ wizualizacjê tego ko³a podczas jazdy samochodu.
-    private void UpdateSinleWheel(WheelCollider collider, Transform visual)
+    private void UpdateSingleWheel(WheelCollider collider, Transform visual)
     {
         Vector3 pos;                                    // Zmienna do przechowywania pozycji ko³a.
         Quaternion rot;                                 // Zmienna do przechowywania rotacji ko³a.

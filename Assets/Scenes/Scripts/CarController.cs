@@ -82,6 +82,14 @@ public class CarController : MonoBehaviour
             // Wzory z pdf - k¹ty wewnêtrzne i zewnêtrzne - zmienione z radianów na stopnie
             float angleInner = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius - (trackWidth / 2)));   // K¹t skrêtu wewnêtrznego ko³a.
             float angleOuter = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius + (trackWidth / 2)));   // K¹t skrêtu zewnêtrznego ko³a.
+
+            // Warunek logiczny - je¿eli k¹t skrêtu jest wiêkszy ni¿ 0, to oznacza, ¿e samochód skrêca w prawo, wiêc ustawiam
+            // k¹t skrêtu wewnêtrznego ko³a na przednim prawym kole, a k¹t skrêtu zewnêtrznego ko³a na przednim lewym kole.
+            if (steerAngle > 0)
+            {
+                frontRightCollider.steerAngle = angleInner;   // Ustawiam k¹t skrêtu wewnêtrznego ko³a na przednim prawym kole.
+                frontLeftCollider.steerAngle = angleOuter;    // Ustawiam k¹t skrêtu zewnêtrznego ko³a na przednim lewym kole.
+            }
         }
     }
 }

@@ -69,6 +69,14 @@ public class CarController : MonoBehaviour
         UpdateWheelPoses();    // Aktualizujê pozycje i rotacje modeli 3D kó³, aby odpowiada³y aktualnemu stanowi fizyki kó³.
     }
 
+    // Metoda FixedUpdate - jest wywo³ywana w sta³ych odstêpach czasu i jest odpowiedzialna za aktualizacjê fizyki
+    // samochodu, w tym obliczanie k¹tów skrêtu kó³ na podstawie zasady Ackermana oraz stosowanie si³y silnika do kó³
+    // tylnych, aby poruszaæ samochód do przodu lub do ty³u.
+    void FixedUpdate()
+    {
+
+    }
+
     // Metoda HandlerSteeringAckerman - metoda odpowiedzialna za obliczanie k¹tów skrêtu kó³ przednich na podstawie zasady
     // Ackermana, która zapewnia, ¿e ko³a skrêcaj¹ w odpowiedni sposób podczas zakrêtów, aby unikn¹æ poœlizgu i poprawiæ stabilnoœæ pojazdu.
     private void HandlerSteeringAckerman()

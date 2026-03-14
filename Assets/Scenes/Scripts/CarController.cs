@@ -78,6 +78,10 @@ public class CarController : MonoBehaviour
         {
             // Obliczam promieñ skrêtu ze œrodka osi: L / ten(delta)
             float turnRadius = wheelbase / Mathf.Tan(Mathf.Deg2Rad * steerAngle);   
+
+            // Wzory z pdf - k¹ty wewnêtrzne i zewnêtrzne - zmienione z radianów na stopnie
+            float angleInner = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius - (trackWidth / 2)));   // K¹t skrêtu wewnêtrznego ko³a.
+            float angleOuter = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius + (trackWidth / 2)));   // K¹t skrêtu zewnêtrznego ko³a.
         }
     }
 }

@@ -74,7 +74,14 @@ public class CarController : MonoBehaviour
     // tylnych, aby poruszaæ samochód do przodu lub do ty³u.
     void FixedUpdate()
     {
+        
+    }
 
+    // Metoda HandlerMotor - metoda odpowiedzialna za stosowanie si³y silnika do kó³ tylnych na podstawie wejœcia pionowego, aby poruszaæ samochód do przodu lub do ty³u.
+    private void HandlerMotor()
+    {
+        rearLeftCollider.motorTorque = verticalInput * motorForce;     // Stosujê si³ê silnika do tylnego lewego ko³a na podstawie wejœcia pionowego i ustawionej si³y silnika.
+        rearRightCollider.motorTorque = verticalInput * motorForce;    // Stosujê si³ê silnika do tylnego prawego ko³a na podstawie wejœcia pionowego i ustawionej si³y silnika.
     }
 
     // Metoda HandlerSteeringAckerman - metoda odpowiedzialna za obliczanie k¹tów skrêtu kó³ przednich na podstawie zasady

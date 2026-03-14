@@ -33,6 +33,10 @@ public class CarController : MonoBehaviour
     private Rigidbody rb;
 
 
+    private float verticalInput;    // Zmienna do przechowywania wartoœci wejœcia pionowego (przyspieszenie/hamowanie).
+    private float horizontalInput;  // Zmienna do przechowywania wartoœci wejœcia poziomego (skrêt kó³).
+
+
     // Deklarujê nag³ówek dla sekcji ustawieñ pojazdu, które bêd¹ u¿ywane do konfiguracji fizyki samochodu.
     [Header("Ustawienia pojazdu")]
 

@@ -2,7 +2,13 @@ using UnityEngine;
 
 // Piotr Bacior 15 722 - WSEI Kraków - Informatyka stosowana
 
-public class CarSensors
+public class CarSensors : MonoBehaviour
 {
-    
+    // Nag³ówek dla sekcji ustawieñ LIDARu, które bêd¹ u¿ywane do konfiguracji sensorów LIDARu samochodu.
+    [Header("Ustawienia LIDARu")]
+
+    public float sensorLength = 10f;        // D³ugoœæ promienia LIDARu, który bêdzie u¿ywany do wykrywania przeszkód.
+    public Transform rightSensorPosition;   // Referencja do Transformu, który bêdzie okreœla³ pozycjê prawego sensora LIDARu.
+
+
 }

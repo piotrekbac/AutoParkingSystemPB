@@ -1070,7 +1070,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ffab638e15b381459e32d2ab4c6c4b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarController
+  frontLeftCollider: {fileID: 1911167192}
+  frontRightCollider: {fileID: 160005783}
+  rearLeftCollider: {fileID: 1946613834}
+  rearRightCollider: {fileID: 1928129181}
+  frontLeftVisual: {fileID: 1436310041}
+  frontRightVisual: {fileID: 565116645}
+  rearLeftVisual: {fileID: 840364817}
+  rearRightVisual: {fileID: 732957000}
   centerOfMass: {fileID: 620469279}
+  motorForce: 1500
+  maxSteerAngle: 35
+  wheelbase: 2.7
+  trackWidth: 1.8
 --- !u!1 &1682410562
 GameObject:
   m_ObjectHideFlags: 0

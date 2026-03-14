@@ -17,5 +17,7 @@ public class CarSensors : MonoBehaviour
     private void ScanEnvironment()
     {
         Vector3 origin = rightSensorPosition != null ? rightSensorPosition.position : transform.position;  // Ustalam punkt pocz¹tkowy promienia LIDARu (pozycja prawego sensora lub pozycja samochodu).
+
+        Vector3 direction = transform.right;   // Ustalam kierunek promienia LIDARu (kierunek prawy samochodu).
     }
 }

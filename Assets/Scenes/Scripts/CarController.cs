@@ -25,6 +25,9 @@ public class CarController : MonoBehaviour
     public Transform rearLeftVisual;      // Referencja do Transformu modelu 3D tylnego lewego ko³a (do wizualizacji).
     public Transform rearRightVisual;     // Referencja do Transformu modelu 3D tylnego prawego ko³a (do wizualizacji).
 
+    [Header("Ustawienia pojazdu")]
+    public Transform centerOfMass;  // Referencja do Transformu, który bêdzie okreœla³ œrodek masy samochodu.
+
 
     // Metoda Start jest wywo³ywana na pocz¹tku gry, przed pierwsz¹ klatk¹. 
     void Start()

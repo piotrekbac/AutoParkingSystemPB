@@ -76,7 +76,8 @@ public class CarController : MonoBehaviour
         // Je¿eli k¹t skrêtu jest wiêkszy ni¿ 0.01f (aby unikn¹æ niepotrzebnych obliczeñ przy bardzo ma³ych wartoœciach), to wykonujê dalsze obliczenia.
         if (Math.Abs(steerAngle) > 0.01f)
         {
-
+            // Obliczam promieñ skrêtu ze œrodka osi: L / ten(delta)
+            float turnRadius = wheelbase / Mathf.Tan(Mathf.Deg2Rad * steerAngle);   
         }
     }
 }

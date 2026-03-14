@@ -29,6 +29,10 @@ public class CarController : MonoBehaviour
     public Transform rearRightVisual;     // Referencja do Transformu modelu 3D tylnego prawego ko³a (do wizualizacji).
 
 
+    // Prywatna zmienna do przechowywania referencji do komponentu Rigidbody, który bêdzie u¿ywany do poruszania siê samochodu.
+    private Rigidbody rb;
+
+
     // Deklarujê nag³ówek dla sekcji ustawieñ pojazdu, które bêd¹ u¿ywane do konfiguracji fizyki samochodu.
     [Header("Ustawienia pojazdu")]
 

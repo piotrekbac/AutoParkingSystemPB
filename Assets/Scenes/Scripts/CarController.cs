@@ -102,5 +102,11 @@ public class CarController : MonoBehaviour
                 frontRightCollider.steerAngle = angleOuter;  // Ustawiam k¹t skrêtu zewnêtrznego ko³a na przednim prawym kole.
             }
         }
+
+        // W przeciwnym przypadku, je¿eli k¹t skrêtu jest mniejszy lub równy 0.01f, to oznacza, ¿e samochód jedzie prosto, wiêc ustawiam k¹t skrêtu na 0 dla obu przednich kó³.
+        else
+        {
+
+        }
     }
 }

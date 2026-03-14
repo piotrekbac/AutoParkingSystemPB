@@ -63,5 +63,14 @@ public class CarController : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");      // Pobieram wartoœæ wejœcia poziomego (skrêt kó³) z klawiatury.
         verticalInput = Input.GetAxis("Vertical");          // Pobieram wartoœæ wejœcia pionowego (przyspieszenie/hamowanie) z klawiatury.
+
+        
+    }
+
+    // Metoda HandlerSteeringAckerman - metoda odpowiedzialna za obliczanie k¹tów skrêtu kó³ przednich na podstawie zasady
+    // Ackermana, która zapewnia, ¿e ko³a skrêcaj¹ w odpowiedni sposób podczas zakrêtów, aby unikn¹æ poœlizgu i poprawiæ stabilnoœæ pojazdu.
+    private void HandlerSteeringAckerman()
+    {
+
     }
 }

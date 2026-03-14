@@ -71,6 +71,6 @@ public class CarController : MonoBehaviour
     // Ackermana, która zapewnia, ¿e ko³a skrêcaj¹ w odpowiedni sposób podczas zakrêtów, aby unikn¹æ poœlizgu i poprawiæ stabilnoœæ pojazdu.
     private void HandlerSteeringAckerman()
     {
-
+        float steerAngle = horizontalInput * maxSteerAngle;   // Obliczam k¹t skrêtu na podstawie wejœcia poziomego i maksymalnego k¹ta skrêtu.
     }
 }

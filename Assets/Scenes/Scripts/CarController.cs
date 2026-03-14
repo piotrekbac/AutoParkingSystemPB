@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // Piotr Bacior 15 722 - WSEI Kraków - Informatyka stosowana
@@ -22,10 +23,17 @@ public class CarController
     void Start()
     {
 
+        rb = GetComponent<Rigidbody>(); // Pobieram komponent Rigidbody, który jest przypisany do tego obiektu (samochodu).
+
         // Je¿eli centerOfMass jest przypisany, to ustawiam œrodek masy samochodu na podstawie jego pozycji.
         if (centerOfMass != null)
         {
             rb.centerOfMass = centerOfMass.localPosition; // Ustawiam œrodek masy samochodu na podstawie pozycji centerOfMass.
         }
+    }
+
+    private T GetComponent<T>()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -14,10 +14,12 @@ public class CarController : MonoBehaviour
     // Deklarujê nag³ówek dla sekcji referencji do komponentów, które bêd¹ u¿ywane w skrypcie.
     [Header("Referencje - Wheel Colidery (Fizyka kó³)")]
 
-    public WheelCollider frontLeftWheel;    // Ko³o przednie lewe
-    public WheelCollider frontRightWheel;   // Ko³o przednie prawe
-    public WheelCollider backLeftWheel;     // Ko³o tylne lewe
-    public WheelCollider backRightWheel;    // Ko³o tylne prawe
+    public WheelCollider frontLeftCollider;     // Referencja do Wheel Collidera przedniego lewego ko³a.
+    public WheelCollider frontRightCollider;    // Referencja do Wheel Collidera przedniego prawego ko³a.
+    public WheelCollider rearLeftCollider;      // Referencja do Wheel Collidera tylnego lewego ko³a.
+    public WheelCollider rearRightCollider;     // Referencja do Wheel Collidera tylnego prawego ko³a.
+
+    [Header("Referencje - Modele 3D kó³ (Wizualizacja kó³)")]
 
 
     // Metoda Start jest wywo³ywana na pocz¹tku gry, przed pierwsz¹ klatk¹. 

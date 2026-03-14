@@ -3,14 +3,12 @@ using UnityEngine;
 
 // Piotr Bacior 15 722 - WSEI Kraków - Informatyka stosowana
 
-public class CarController
+public class CarController : MonoBehaviour
 {
     /* 
-     
      Tworzê skrypt, który bêdzie odpowiada³ za sterowanie samochodem.
      Bêdzie on wykorzystywa³ komponent Rigidbody do poruszania siê
      samochodu oraz Transform do ustawiania œrodka masy. 
-
     */
 
     // Referencja do komponentu Rigidbody, który bêdzie odpowiada³ za fizykê samochodu.
@@ -19,21 +17,16 @@ public class CarController
     // Referencja do Transform, który bêdzie odpowiada³ za ustawianie œrodka masy samochodu.
     public Transform centerOfMass;
 
-    // Metoda Start jest wywo³ywana na pocz¹tku gry, przed pierwsz¹ klatk¹. Tutaj ustawiam œrodek masy samochodu, jeœli centerOfMass jest przypisany.
+    // Metoda Start jest wywo³ywana na pocz¹tku gry, przed pierwsz¹ klatk¹. 
     void Start()
     {
-
-        rb = GetComponent<Rigidbody>(); // Pobieram komponent Rigidbody, który jest przypisany do tego obiektu (samochodu).
+        // Pobieram komponent Rigidbody, który jest przypisany do tego obiektu (samochodu).
+        rb = GetComponent<Rigidbody>();
 
         // Je¿eli centerOfMass jest przypisany, to ustawiam œrodek masy samochodu na podstawie jego pozycji.
         if (centerOfMass != null)
         {
-            rb.centerOfMass = centerOfMass.localPosition; // Ustawiam œrodek masy samochodu na podstawie pozycji centerOfMass.
+            rb.centerOfMass = centerOfMass.localPosition; // Ustawiam œrodek masy
         }
-    }
-
-    private T GetComponent<T>()
-    {
-        throw new NotImplementedException();
     }
 }

@@ -32,8 +32,11 @@ public class CarController : MonoBehaviour
     // Deklarujê nag³ówek dla sekcji ustawieñ pojazdu, które bêd¹ u¿ywane do konfiguracji fizyki samochodu.
     [Header("Ustawienia pojazdu")]
 
-    public Transform centerOfMass;  // Referencja do Transformu, który bêdzie okreœla³ œrodek masy samochodu.
-
+    public Transform centerOfMass;      // Referencja do Transformu, który bêdzie okreœla³ œrodek masy samochodu.
+    public float motorForce = 1500f;    // Si³a silnika, która bêdzie u¿ywana do napêdzania samochodu.
+    public float maxSteerAngle = 35f;   // Maksymalny k¹t skrêtu kó³, który bêdzie u¿ywany do sterowania samochodem.
+    public float wheelbase = 2.7f;      // Rozstaw osi samochodu, który bêdzie u¿ywany do obliczania k¹tów skrêtu kó³.
+    public float trackWidth = 1.8f;     // Szerokoœæ toru jazdy samochodu, która bêdzie u¿ywana do obliczania k¹tów skrêtu kó³.
 
     // Metoda Start jest wywo³ywana na pocz¹tku gry, przed pierwsz¹ klatk¹. 
     void Start()

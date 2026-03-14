@@ -72,5 +72,11 @@ public class CarController : MonoBehaviour
     private void HandlerSteeringAckerman()
     {
         float steerAngle = horizontalInput * maxSteerAngle;   // Obliczam k¹t skrêtu na podstawie wejœcia poziomego i maksymalnego k¹ta skrêtu.
+
+        // Je¿eli k¹t skrêtu jest wiêkszy ni¿ 0.01f (aby unikn¹æ niepotrzebnych obliczeñ przy bardzo ma³ych wartoœciach), to wykonujê dalsze obliczenia.
+        if (Math.Abs(steerAngle) > 0.01f)
+        {
+
+        }
     }
 }

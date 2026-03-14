@@ -115,7 +115,10 @@ public class CarController : MonoBehaviour
     // Metoda UpdateWheelPoses - metoda odpowiedzialna za aktualizacjê pozycji i rotacji modeli 3D kó³ na podstawie pozycji i rotacji Wheel Colliderów, aby zapewniæ poprawn¹ wizualizacjê kó³ podczas jazdy samochodu.
     private void UpdateWheelPoses()
     {
-        
+        UpdateSinleWheel(frontLeftCollider, frontLeftVisual);     // Aktualizujê pozycjê i rotacjê modelu 3D przedniego lewego ko³a.
+        UpdateSinleWheel(frontRightCollider, frontRightVisual);   // Aktualizujê pozycjê i rotacjê modelu 3D przedniego prawego ko³a.
+        UpdateSinleWheel(rearLeftCollider, rearLeftVisual);       // Aktualizujê pozycjê i rotacjê modelu 3D tylnego lewego ko³a.
+        UpdateSinleWheel(rearRightCollider, rearRightVisual);     // Aktualizujê pozycjê i rotacjê modelu 3D tylnego prawego ko³a.
     }
 
 

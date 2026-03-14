@@ -11,11 +11,14 @@ public class CarController : MonoBehaviour
      samochodu oraz Transform do ustawiania œrodka masy. 
     */
 
-    // Referencja do komponentu Rigidbody, który bêdzie odpowiada³ za fizykê samochodu.
-    private Rigidbody rb;
+    // Deklarujê nag³ówek dla sekcji referencji do komponentów, które bêd¹ u¿ywane w skrypcie.
+    [Header("Referencje - Wheel Colidery (Fizyka kó³)")]
 
-    // Referencja do Transform, który bêdzie odpowiada³ za ustawianie œrodka masy samochodu.
-    public Transform centerOfMass;
+    public WheelCollider frontLeftWheel;    // Ko³o przednie lewe
+    public WheelCollider frontRightWheel;   // Ko³o przednie prawe
+    public WheelCollider backLeftWheel;     // Ko³o tylne lewe
+    public WheelCollider backRightWheel;    // Ko³o tylne prawe
+
 
     // Metoda Start jest wywo³ywana na pocz¹tku gry, przed pierwsz¹ klatk¹. 
     void Start()

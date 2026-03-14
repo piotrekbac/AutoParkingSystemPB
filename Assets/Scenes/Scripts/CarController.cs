@@ -55,12 +55,13 @@ public class CarController : MonoBehaviour
         // Je¿eli centerOfMass jest przypisany, to ustawiam œrodek masy samochodu na podstawie jego pozycji.
         if (centerOfMass != null)
         {
-            rb.centerOfMass = centerOfMass.localPosition; // Ustawiam œrodek masy
+            rb.centerOfMass = centerOfMass.localPosition;   // Ustawiam œrodek masy
         }
     }
 
     void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");  // Pobieram wartoœæ wejœcia poziomego (skrêt kó³) z klawiatury.
+        horizontalInput = Input.GetAxis("Horizontal");      // Pobieram wartoœæ wejœcia poziomego (skrêt kó³) z klawiatury.
+        verticalInput = Input.GetAxis("Vertical");          // Pobieram wartoœæ wejœcia pionowego (przyspieszenie/hamowanie) z klawiatury.
     }
 }

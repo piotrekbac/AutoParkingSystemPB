@@ -20,6 +20,10 @@ public class CarController : MonoBehaviour
     public WheelCollider rearRightCollider;     // Referencja do Wheel Collidera tylnego prawego ko³a.
 
     [Header("Referencje - Modele 3D kó³ (Wizualizacja kó³)")]
+    public Transform frontLeftVisual;     // Referencja do Transformu modelu 3D przedniego lewego ko³a (do wizualizacji).
+    public Transform frontRightVisual;    // Referencja do Transformu modelu 3D przedniego prawego ko³a (do wizualizacji).
+    public Transform rearLeftVisual;      // Referencja do Transformu modelu 3D tylnego lewego ko³a (do wizualizacji).
+    public Transform rearRightVisual;     // Referencja do Transformu modelu 3D tylnego prawego ko³a (do wizualizacji).
 
 
     // Metoda Start jest wywo³ywana na pocz¹tku gry, przed pierwsz¹ klatk¹. 

@@ -17,4 +17,15 @@ public class CarController
 
     // Referencja do Transform, który bêdzie odpowiada³ za ustawianie œrodka masy samochodu.
     public Transform centerOfMass;
+
+    // Metoda Start jest wywo³ywana na pocz¹tku gry, przed pierwsz¹ klatk¹. Tutaj ustawiam œrodek masy samochodu, jeœli centerOfMass jest przypisany.
+    void Start()
+    {
+
+        // Je¿eli centerOfMass jest przypisany, to ustawiam œrodek masy samochodu na podstawie jego pozycji.
+        if (centerOfMass != null)
+        {
+            rb.centerOfMass = centerOfMass.localPosition; // Ustawiam œrodek masy samochodu na podstawie pozycji centerOfMass.
+        }
+    }
 }

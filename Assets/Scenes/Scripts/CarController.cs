@@ -19,13 +19,19 @@ public class CarController : MonoBehaviour
     public WheelCollider rearLeftCollider;      // Referencja do Wheel Collidera tylnego lewego ko³a.
     public WheelCollider rearRightCollider;     // Referencja do Wheel Collidera tylnego prawego ko³a.
 
+
+    // Deklarujê nag³ówek dla sekcji referencji do modeli 3D kó³, które bêd¹ u¿ywane do wizualizacji kó³ samochodu.
     [Header("Referencje - Modele 3D kó³ (Wizualizacja kó³)")]
+
     public Transform frontLeftVisual;     // Referencja do Transformu modelu 3D przedniego lewego ko³a (do wizualizacji).
     public Transform frontRightVisual;    // Referencja do Transformu modelu 3D przedniego prawego ko³a (do wizualizacji).
     public Transform rearLeftVisual;      // Referencja do Transformu modelu 3D tylnego lewego ko³a (do wizualizacji).
     public Transform rearRightVisual;     // Referencja do Transformu modelu 3D tylnego prawego ko³a (do wizualizacji).
 
+
+    // Deklarujê nag³ówek dla sekcji ustawieñ pojazdu, które bêd¹ u¿ywane do konfiguracji fizyki samochodu.
     [Header("Ustawienia pojazdu")]
+
     public Transform centerOfMass;  // Referencja do Transformu, który bêdzie okreœla³ œrodek masy samochodu.
 
 

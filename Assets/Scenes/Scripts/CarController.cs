@@ -58,4 +58,9 @@ public class CarController : MonoBehaviour
             rb.centerOfMass = centerOfMass.localPosition; // Ustawiam œrodek masy
         }
     }
+
+    void Update()
+    {
+        horizontalInput = Input.GetAxis("Horizontal");  // Pobieram wartoœæ wejœcia poziomego (skrêt kó³) z klawiatury.
+    }
 }

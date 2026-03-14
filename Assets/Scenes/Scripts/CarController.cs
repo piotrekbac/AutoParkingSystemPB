@@ -110,4 +110,10 @@ public class CarController : MonoBehaviour
             frontRightCollider.steerAngle = 0;   // Ustawiam k¹t skrêtu na 0 dla przedniego prawego ko³a.
         }
     }
+
+    // Metoda UpdateWheelPoses - metoda odpowiedzialna za aktualizacjê pozycji i rotacji modeli 3D kó³ na podstawie pozycji i rotacji Wheel Colliderów, aby zapewniæ poprawn¹ wizualizacjê kó³ podczas jazdy samochodu.
+    private void UpdateWheelPoses()
+    {
+        
+    }
 }

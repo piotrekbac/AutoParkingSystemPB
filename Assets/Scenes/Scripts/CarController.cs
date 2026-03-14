@@ -59,12 +59,14 @@ public class CarController : MonoBehaviour
         }
     }
 
+    // Metoda Update - jest wywo³ywana raz na klatkê i jest odpowiedzialna za pobieranie wejœcia
+    // od gracza oraz aktualizacjê pozycji i rotacji modeli 3D kó³, aby odpowiada³y aktualnemu stanowi fizyki kó³.
     void Update()
     {
         horizontalInput = Input.GetAxis("Horizontal");      // Pobieram wartoœæ wejœcia poziomego (skrêt kó³) z klawiatury.
         verticalInput = Input.GetAxis("Vertical");          // Pobieram wartoœæ wejœcia pionowego (przyspieszenie/hamowanie) z klawiatury.
 
-        
+        UpdateWheelPoses();    // Aktualizujê pozycje i rotacje modeli 3D kó³, aby odpowiada³y aktualnemu stanowi fizyki kó³.
     }
 
     // Metoda HandlerSteeringAckerman - metoda odpowiedzialna za obliczanie k¹tów skrêtu kó³ przednich na podstawie zasady

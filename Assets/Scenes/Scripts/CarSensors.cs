@@ -16,7 +16,8 @@ public class CarSensors : MonoBehaviour
     // Metoda Update - jest wywo³ywana raz na klatkê i jest odpowiedzialna za aktualizowanie stanu sensorów LIDARu poprzez wywo³anie metody ScanEnvironment, która skanuje otoczenie i aktualizuje informacje o wykrytych przeszkodach.
     void Update()
     {
-
+        // Wywo³anie metody ScanEnvironment, która jest odpowiedzialna za skanowanie otoczenia za pomoc¹ LIDARu i aktualizowanie informacji o wykrytych przeszkodach. Ta metoda bêdzie wykonywana w ka¿dej klatce, co pozwoli na ci¹g³e monitorowanie otoczenia samochodu i aktualizowanie stanu sensorów LIDARu w czasie rzeczywistym.
+        ScanEnvironment();
     }
 
 

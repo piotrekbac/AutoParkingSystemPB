@@ -19,5 +19,10 @@ public class SearchState : ICarState
         // 1. Odbieramy graczowi klawiaturê - AI bêdzie wciskaæ gaz na 30% mocy i jechaæ prosto
         car.verticalInput = 0.3f;  // Ustawiamy wartoœæ wejœcia pionowego na 0.3, co oznacza, ¿e samochód bêdzie jecha³ z 30% mocy silnika. 
         car.horizontalInput = 0f;  // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie jecha³ prosto, bez skrêtu.
+
+
+        // 2. Pobieranie informacji naszego lasers 
+        CarSensors sensors = car.GetComponent<CarSensors>();    // Pobieramy komponent CarSensors, który jest przypisany do samochodu
+
     }
 }

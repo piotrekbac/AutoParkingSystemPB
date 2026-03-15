@@ -25,7 +25,8 @@ public class CarSensors : MonoBehaviour
         // Warunek logiczny - fizyka Raycast - sprawdzam, czy promieñ LIDARu trafia w przeszkodê, u¿ywaj¹c funkcji Physics.Raycast, która zwraca true, jeœli promieñ trafi w coœ, i false, jeœli nie trafi. Jeœli promieñ trafi w przeszkodê, informacje o trafieniu zostan¹ zapisane w zmiennej hit.
         if (Physics.Raycast(origin, direction, out hit, sensorLength))
         {
-
+            isObstacleDetected = true;                 // Ustawiam isObstacleDetected na true, poniewa¿ przeszkoda zosta³a wykryta.
+            currentDistanceToObstacle = hit.distance;  // Aktualizujê currentDistanceToObstacle na odleg³oœæ do wykrytej przeszkody, która jest dostêpna w zmiennej hit.distance.
         }
     }
 }

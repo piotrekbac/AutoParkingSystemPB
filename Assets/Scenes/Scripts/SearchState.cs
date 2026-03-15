@@ -24,5 +24,11 @@ public class SearchState : ICarState
         // 2. Pobieranie informacji naszego lasers 
         CarSensors sensors = car.GetComponent<CarSensors>();    // Pobieramy komponent CarSensors, który jest przypisany do samochodu
 
+        // Warunek logiczny - sprawdzamy, czy komponent CarSensors zosta³ poprawnie pobrany (nie jest null). Jeœli tak, to mo¿emy uzyskaæ dostêp do informacji o wykrytych przeszkodach i odleg³oœci do nich, które s¹ przechowywane w zmiennych isObstacleDetected i currentDistanceToObstacle. Na podstawie tych informacji mo¿na podejmowaæ decyzje dotycz¹ce dalszego poruszania siê samochodu, np. zatrzymanie siê przed przeszkod¹, skrêt w innym kierunku itp.
+        if (sensors != null)
+        {
+
+        }    
+
     }
 }

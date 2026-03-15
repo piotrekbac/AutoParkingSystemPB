@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CarSensors : MonoBehaviour
 {
+
     // Nag³ówek dla sekcji ustawieñ LIDARu, które bêd¹ u¿ywane do konfiguracji sensorów LIDARu samochodu.
     [Header("Ustawienia LIDARu")]
 
@@ -12,6 +13,7 @@ public class CarSensors : MonoBehaviour
 
     public float currentDistanceToObstacle;   // Zmienna do przechowywania aktualnej odleg³oœci do przeszkody, która bêdzie aktualizowana na podstawie wyników wykrywania LIDARu.
     public bool isObstacleDetected;           // Zmienna do przechowywania informacji o tym, czy przeszkoda zosta³a wykryta, która bêdzie aktualizowana na podstawie wyników wykrywania LIDARu.
+
 
     // Metoda Update - jest wywo³ywana raz na klatkê i jest odpowiedzialna za aktualizowanie stanu sensorów LIDARu poprzez wywo³anie metody ScanEnvironment, która skanuje otoczenie i aktualizuje informacje o wykrytych przeszkodach.
     void Update()
@@ -24,11 +26,13 @@ public class CarSensors : MonoBehaviour
     // Metoda ScanEnvironment jest odpowiedzialna za skanowanie otoczenia za pomoc¹ LIDARu i aktualizowanie informacji o wykrytych przeszkodach.
     private void ScanEnvironment()
     {
+
         Vector3 origin = rightSensorPosition != null ? rightSensorPosition.position : transform.position;  // Ustalam punkt pocz¹tkowy promienia LIDARu (pozycja prawego sensora lub pozycja samochodu).
 
         Vector3 direction = transform.right;   // Ustalam kierunek promienia LIDARu (kierunek prawy samochodu).
 
         RaycastHit hit;                        // Tworzê zmienn¹ typu RaycastHit, która bêdzie przechowywaæ informacje o trafieniu promienia LIDARu w przeszkodê.
+
 
         // Warunek logiczny - fizyka Raycast - sprawdzam, czy promieñ LIDARu trafia w przeszkodê, u¿ywaj¹c funkcji Physics.Raycast, która zwraca true, jeœli promieñ trafi w coœ, i false, jeœli nie trafi. Jeœli promieñ trafi w przeszkodê, informacje o trafieniu zostan¹ zapisane w zmiennej hit.
         if (Physics.Raycast(origin, direction, out hit, sensorLength))
@@ -39,6 +43,7 @@ public class CarSensors : MonoBehaviour
             // Rysowanie CZERWONEGO lasera w edytorze - uderzenie w przeszkodê 
             Debug.DrawLine(origin, direction * hit.distance, Color.red);  // Rysujê liniê od punktu pocz¹tkowego do punktu trafienia, u¿ywaj¹c koloru czerwonego, aby wizualizowaæ wykrycie przeszkody.
         }
+
 
         // Jeœli promieñ LIDARu nie trafi w przeszkodê, ustawiam isObstacleDetected na false i currentDistanceToObstacle na sensorLength, co oznacza, ¿e nie ma przeszkody w zasiêgu LIDARu. Rysujê równie¿ zielony laser, aby wizualizowaæ brak wykrycia przeszkody.
         else

@@ -42,8 +42,8 @@ public class CarController : MonoBehaviour
     private Rigidbody rb;
 
 
-    private float verticalInput;    // Zmienna do przechowywania wartoœci wejœcia pionowego (przyspieszenie/hamowanie).
-    private float horizontalInput;  // Zmienna do przechowywania wartoœci wejœcia poziomego (skrêt kó³).
+    public float verticalInput;    // Zmienna do przechowywania wartoœci wejœcia pionowego (przyspieszenie/hamowanie).
+    public float horizontalInput;  // Zmienna do przechowywania wartoœci wejœcia poziomego (skrêt kó³).
 
 
     // Metoda Start jest wywo³ywana na pocz¹tku gry, przed pierwsz¹ klatk¹. 

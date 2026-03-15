@@ -27,7 +27,11 @@ public class SearchState : ICarState
         // Warunek logiczny - sprawdzamy, czy komponent CarSensors zosta³ poprawnie pobrany (nie jest null). Jeœli tak, to mo¿emy uzyskaæ dostêp do informacji o wykrytych przeszkodach i odleg³oœci do nich, które s¹ przechowywane w zmiennych isObstacleDetected i currentDistanceToObstacle. Na podstawie tych informacji mo¿na podejmowaæ decyzje dotycz¹ce dalszego poruszania siê samochodu, np. zatrzymanie siê przed przeszkod¹, skrêt w innym kierunku itp.
         if (sensors != null)
         {
-
+            // Je¿eli wykryto przeszkodê (isObstacleDetected jest true), to mo¿emy podj¹æ odpowiednie dzia³ania, np. zatrzymaæ siê, skrêciæ w innym kierunku, itp. W tym przypadku, jeœli wykryto przeszkodê, to po prostu kontynuujemy jazdê prosto, poniewa¿ samochód jest w stanie poszukiwania miejsca parkingowego i mo¿e napotkaæ ró¿ne przeszkody na swojej drodze, które musi omijaæ lub pokonywaæ, aby znaleŸæ odpowiednie miejsce do zaparkowania.
+            if (sensors.isObstacleDetected)
+            {
+                // Widzimy œcianê/inne auto - jedziemy dalej
+            }
         }    
 
     }

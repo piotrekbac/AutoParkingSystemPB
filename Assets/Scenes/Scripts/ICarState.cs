@@ -3,6 +3,12 @@ using UnityEngine;
 // Piotr Bacior 15 722 - WSEI Kraków - Informatyka stosowana
 public interface ICarState
 {
+
+    /// <summary>
+    /// Te trzy metody bêdzie musia³ posiadaæ ka¿dy stan naszego auta
+    /// </summary>
+
+
     /* 
      Metoda Enter - jest wywo³ywana, gdy samochód wchodzi w dany stan.
      Przyjmuje jako argument obiekt CarController, który reprezentuje kontroler

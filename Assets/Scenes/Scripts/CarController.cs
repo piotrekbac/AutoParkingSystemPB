@@ -41,6 +41,9 @@ public class CarController : MonoBehaviour
     // Prywatna zmienna do przechowywania referencji do komponentu Rigidbody, który bêdzie u¿ywany do poruszania siê samochodu.
     private Rigidbody rb;
 
+    // Zmienna do przechowywania aktualnego stanu samochodu w ramach FSM (Finite State Machine).
+    private ICarState currentState;    
+
 
     public float verticalInput;    // Zmienna do przechowywania wartoœci wejœcia pionowego (przyspieszenie/hamowanie).
     public float horizontalInput;  // Zmienna do przechowywania wartoœci wejœcia poziomego (skrêt kó³).

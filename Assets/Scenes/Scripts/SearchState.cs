@@ -32,6 +32,12 @@ public class SearchState : ICarState
             {
                 // Widzimy œcianê/inne auto - jedziemy dalej
             }
+
+            // Obs³uga przypadku, gdy nie wykryto przeszkody (isObstacleDetected jest false). W tym przypadku, jeœli nie wykryto przeszkody, to mo¿emy kontynuowaæ jazdê prosto, poniewa¿ samochód jest w stanie poszukiwania miejsca parkingowego i mo¿e napotkaæ ró¿ne przeszkody na swojej drodze, które musi omijaæ lub pokonywaæ, aby znaleŸæ odpowiednie miejsce do zaparkowania. W tym przypadku, jeœli nie wykryto przeszkody, to po prostu kontynuujemy jazdê prosto, poniewa¿ samochód jest w stanie poszukiwania miejsca parkingowego i mo¿e napotkaæ ró¿ne przeszkody na swojej drodze, które musi omijaæ lub pokonywaæ, aby znaleŸæ odpowiednie miejsce do zaparkowania.
+            else
+            {
+                Debug.Log("FSM: Nie wykryto przeszkody, kontynuujemy jazdê prosto...");
+            }
         }    
 
     }

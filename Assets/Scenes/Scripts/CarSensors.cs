@@ -13,6 +13,13 @@ public class CarSensors : MonoBehaviour
     public float currentDistanceToObstacle;   // Zmienna do przechowywania aktualnej odleg³oœci do przeszkody, która bêdzie aktualizowana na podstawie wyników wykrywania LIDARu.
     public bool isObstacleDetected;           // Zmienna do przechowywania informacji o tym, czy przeszkoda zosta³a wykryta, która bêdzie aktualizowana na podstawie wyników wykrywania LIDARu.
 
+    // Metoda Update - jest wywo³ywana raz na klatkê i jest odpowiedzialna za aktualizowanie stanu sensorów LIDARu poprzez wywo³anie metody ScanEnvironment, która skanuje otoczenie i aktualizuje informacje o wykrytych przeszkodach.
+    void Update()
+    {
+
+    }
+
+
     // Metoda ScanEnvironment jest odpowiedzialna za skanowanie otoczenia za pomoc¹ LIDARu i aktualizowanie informacji o wykrytych przeszkodach.
     private void ScanEnvironment()
     {

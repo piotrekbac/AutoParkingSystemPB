@@ -35,7 +35,10 @@ public class CarSensors : MonoBehaviour
         // Jeœli promieñ LIDARu nie trafi w przeszkodê, ustawiam isObstacleDetected na false i currentDistanceToObstacle na sensorLength, co oznacza, ¿e nie ma przeszkody w zasiêgu LIDARu. Rysujê równie¿ zielony laser, aby wizualizowaæ brak wykrycia przeszkody.
         else
         {
+            isObstacleDetected = false;                // Ustawiam isObstacleDetected na false, poniewa¿ nie wykryto przeszkody.
+            currentDistanceToObstacle = sensorLength;  // Ustawiam currentDistanceToObstacle na sensorLength, co oznacza, ¿e nie ma przeszkody w zasiêgu LIDARu.
 
+            
         }
     }
 }

@@ -15,6 +15,7 @@ public class SearchState : ICarState
     private bool isMeasuringGap = false;        // Flaga, która wskazuje, czy aktualnie mierzymy lukê miêdzy samochodami.
     private Vector3 gapStartPosition;           // Zmienna do przechowywania pozycji pocz¹tkowej, od której zaczynamy mierzyæ lukê miêdzy samochodami.
     private float requiredGapWidth = 3.0f;      // Zmienna okreœlaj¹ca wymagan¹ szerokoœæ luki miêdzy samochodami, która jest potrzebna do zaparkowania. 
+    private bool spotFound = false;             // Flaga, która wskazuje, czy znaleŸliœmy odpowiednie miejsce parkingowe (lukê miêdzy samochodami) podczas poszukiwania.
 
     // Implementacja metody Enter z interfejsu ICarState. Ta metoda jest wywo³ywana, gdy samochód wchodzi w stan poszukiwania miejsca parkingowego.
     public void Enter(CarController car)

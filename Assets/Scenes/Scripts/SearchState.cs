@@ -61,6 +61,7 @@ public class SearchState : ICarState
                 {
                     // Wyœwietlam komunikat o zmierzeniu luki i jej dalszym poszukiwaniu
                     Debug.Log("FSM: Luka by³a za ma³a! Ignoruje i szukam dalej...");
+                    isMeasuringGap = false;     // Reset flagi isMeasuringGap - nie mierzymy ju¿ luki bo jest za ma³a, wiêc mo¿emy szukaæ dalej.
                 }
             }
 

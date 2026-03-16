@@ -160,4 +160,13 @@ public class CarController : MonoBehaviour
         visual.position = pos;                          // Ustawiam pozycjê modelu 3D ko³a na podstawie pozycji Wheel Collidera.
         visual.rotation = rot;                          // Ustawiam rotacjê modelu 3D ko³a na podstawie rotacji Wheel Collidera.
     }
+
+    // Metoda ChangeState - metoda odpowiedzialna za zmianê stanu samochodu w ramach FSM (Finite State Machine).
+    // Przyjmuje jako argument nowy stan, do którego samochód ma przejœæ, i aktualizuje aktualny stan samochodu na ten nowy stan.
+    // Ta metoda jest kluczowa dla zarz¹dzania logik¹ stanu samochodu i umo¿liwia p³ynne przechodzenie miêdzy ró¿nymi stanami,
+    // takimi jak poszukiwanie miejsca parkingowego, parkowanie, itp.
+    private void ChangeState(ICarState newState)
+    {
+
+    }
 }

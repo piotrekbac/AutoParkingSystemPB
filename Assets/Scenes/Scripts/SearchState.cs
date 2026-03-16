@@ -14,6 +14,10 @@ public class SearchState : ICarState
     public void Enter(CarController car)
     {
         Debug.Log("FSM: Rozpoczynam poszukiwanie miejsca...");
+
+        // Pobieramy komponent CarSensors, który jest przypisany do samochodu, i przypisujemy go do zmiennej sensors.
+        // Dziêki temu bêdziemy mogli korzystaæ z informacji o wykrytych przeszkodach i odleg³oœci do nich podczas aktualizacji stanu w metodzie UpdateState.
+        sensors = car.GetComponent<CarSensors>();    
     }
 
     // Implementacja metody UpdateState z interfejsu ICarState.

@@ -10,6 +10,9 @@ public class SearchState : ICarState
     // decyzji dotycz¹cych poruszania siê samochodu podczas poszukiwania miejsca parkingowego.
     private CarSensors sensors;
 
+    // Zmienne do mierzenia luki 
+    private bool isMeasuringGap = false;  // Flaga, która wskazuje, czy aktualnie mierzymy lukê miêdzy samochodami.
+
     // Implementacja metody Enter z interfejsu ICarState. Ta metoda jest wywo³ywana, gdy samochód wchodzi w stan poszukiwania miejsca parkingowego.
     public void Enter(CarController car)
     {

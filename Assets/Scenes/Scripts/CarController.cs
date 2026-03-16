@@ -60,6 +60,9 @@ public class CarController : MonoBehaviour
         {
             rb.centerOfMass = centerOfMass.localPosition;   // Ustawiam œrodek masy
         }
+
+        // Ustawiam pocz¹tkowy stan samochodu na SearchState, co oznacza, ¿e samochód rozpocznie poszukiwanie miejsca parkingowego na pocz¹tku gry.
+        ChangeState(new SearchState());   
     }
 
     // Metoda Update - jest wywo³ywana raz na klatkê i jest odpowiedzialna za pobieranie wejœcia

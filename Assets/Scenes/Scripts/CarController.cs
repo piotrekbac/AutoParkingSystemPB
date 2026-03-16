@@ -72,7 +72,8 @@ public class CarController : MonoBehaviour
         // Warunek logiczny - sprawdzam, czy currentState nie jest null, co oznacza, ¿e samochód znajduje siê w jakimœ stanie. 
         if (currentState != null)
         {
-
+            // Je¿eli currentState nie jest null, to wywo³ujê metodê UpdateState na aktualnym stanie, przekazuj¹c jako argument ten obiekt (samochód), aby umo¿liwiæ aktualizacjê stanu samochodu na podstawie logiki specyficznej dla tego stanu.
+            currentState.UpdateState(this);   
         }
 
         UpdateWheelPoses();    // Aktualizujê pozycje i rotacje modeli 3D kó³, aby odpowiada³y aktualnemu stanowi fizyki kó³.

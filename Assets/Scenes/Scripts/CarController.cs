@@ -69,8 +69,11 @@ public class CarController : MonoBehaviour
     // od gracza oraz aktualizacjê pozycji i rotacji modeli 3D kó³, aby odpowiada³y aktualnemu stanowi fizyki kó³.
     void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");      // Pobieram wartoœæ wejœcia poziomego (skrêt kó³) z klawiatury.
-        verticalInput = Input.GetAxis("Vertical");          // Pobieram wartoœæ wejœcia pionowego (przyspieszenie/hamowanie) z klawiatury.
+        // Warunek logiczny - sprawdzam, czy currentState nie jest null, co oznacza, ¿e samochód znajduje siê w jakimœ stanie. 
+        if (currentState != null)
+        {
+
+        }
 
         UpdateWheelPoses();    // Aktualizujê pozycje i rotacje modeli 3D kó³, aby odpowiada³y aktualnemu stanowi fizyki kó³.
     }

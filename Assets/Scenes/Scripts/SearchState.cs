@@ -56,7 +56,11 @@ public class SearchState : ICarState
             // odpowiednie miejsce do zaparkowania.
             if (sensors.isObstacleDetected)
             {
-                // Widzimy œcianê/inne auto - jedziemy dalej
+                // Widzimy œcianê/inne auto 
+                if (isMeasuringGap)
+                {
+
+                }
             }
 
             // Obs³uga przypadku, gdy nie wykryto przeszkody (isObstacleDetected jest false). W tym przypadku, jeœli nie wykryto przeszkody, to mo¿emy kontynuowaæ

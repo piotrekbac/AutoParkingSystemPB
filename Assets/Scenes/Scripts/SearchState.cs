@@ -50,6 +50,8 @@ public class SearchState : ICarState
     // Implementacja metody Exit z interfejsu ICarState. Ta metoda jest wywo³ywana, gdy samochód opuszcza stan poszukiwania miejsca parkingowego.
     public void Exit(CarController car)
     {
-        
+        // Ta metoda jest wywo³ywana, gdy samochód opuszcza stan poszukiwania miejsca parkingowego.
+        // Tutaj mo¿na dodaæ logikê, która bêdzie wykonywana podczas opuszczania tego stanu, np. resetowanie parametrów, zatrzymanie samochodu itp.
+        Debug.Log("FSM: Zakoñczy³em poszukiwanie miejsca.");
     }
 }

@@ -12,9 +12,9 @@ public class SearchState : ICarState
 
 
     // Zmienne do mierzenia luki 
-    private bool isMeasuringGap = false;    // Flaga, która wskazuje, czy aktualnie mierzymy lukê miêdzy samochodami.
-    private Vector3 gapStartPosition;       // Zmienna do przechowywania pozycji pocz¹tkowej, od której zaczynamy mierzyæ lukê miêdzy samochodami.
-
+    private bool isMeasuringGap = false;        // Flaga, która wskazuje, czy aktualnie mierzymy lukê miêdzy samochodami.
+    private Vector3 gapStartPosition;           // Zmienna do przechowywania pozycji pocz¹tkowej, od której zaczynamy mierzyæ lukê miêdzy samochodami.
+    private float requiredGapWidth = 3.0f;      // Zmienna okreœlaj¹ca wymagan¹ szerokoœæ luki miêdzy samochodami, która jest potrzebna do zaparkowania. 
 
     // Implementacja metody Enter z interfejsu ICarState. Ta metoda jest wywo³ywana, gdy samochód wchodzi w stan poszukiwania miejsca parkingowego.
     public void Enter(CarController car)
@@ -36,16 +36,26 @@ public class SearchState : ICarState
         car.horizontalInput = 0f;  // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie jecha³ prosto, bez skrêtu
 
 
-        // Warunek logiczny - sprawdzamy, czy komponent CarSensors zosta³ poprawnie pobrany (nie jest null). Jeœli tak, to mo¿emy uzyskaæ dostêp do informacji o wykrytych przeszkodach i odleg³oœci do nich, które s¹ przechowywane w zmiennych isObstacleDetected i currentDistanceToObstacle. Na podstawie tych informacji mo¿na podejmowaæ decyzje dotycz¹ce dalszego poruszania siê samochodu, np. zatrzymanie siê przed przeszkod¹, skrêt w innym kierunku itp.
+        // Warunek logiczny - sprawdzamy, czy komponent CarSensors zosta³ poprawnie pobrany (nie jest null). Jeœli tak, to mo¿emy uzyskaæ dostêp do informacji
+        // o wykrytych przeszkodach i odleg³oœci do nich, które s¹ przechowywane w zmiennych isObstacleDetected i currentDistanceToObstacle.
+        // Na podstawie tych informacji mo¿na podejmowaæ decyzje dotycz¹ce dalszego poruszania siê samochodu, np. zatrzymanie siê przed przeszkod¹,
+        // skrêt w innym kierunku itp.
         if (sensors != null)
         {
-            // Je¿eli wykryto przeszkodê (isObstacleDetected jest true), to mo¿emy podj¹æ odpowiednie dzia³ania, np. zatrzymaæ siê, skrêciæ w innym kierunku, itp. W tym przypadku, jeœli wykryto przeszkodê, to po prostu kontynuujemy jazdê prosto, poniewa¿ samochód jest w stanie poszukiwania miejsca parkingowego i mo¿e napotkaæ ró¿ne przeszkody na swojej drodze, które musi omijaæ lub pokonywaæ, aby znaleŸæ odpowiednie miejsce do zaparkowania.
+            // Je¿eli wykryto przeszkodê (isObstacleDetected jest true), to mo¿emy podj¹æ odpowiednie dzia³ania, np. zatrzymaæ siê, skrêciæ w innym
+            // kierunku, itp. W tym przypadku, jeœli wykryto przeszkodê, to po prostu kontynuujemy jazdê prosto, poniewa¿ samochód jest w stanie
+            // poszukiwania miejsca parkingowego i mo¿e napotkaæ ró¿ne przeszkody na swojej drodze, które musi omijaæ lub pokonywaæ, aby znaleŸæ
+            // odpowiednie miejsce do zaparkowania.
             if (sensors.isObstacleDetected)
             {
                 // Widzimy œcianê/inne auto - jedziemy dalej
             }
 
-            // Obs³uga przypadku, gdy nie wykryto przeszkody (isObstacleDetected jest false). W tym przypadku, jeœli nie wykryto przeszkody, to mo¿emy kontynuowaæ jazdê prosto, poniewa¿ samochód jest w stanie poszukiwania miejsca parkingowego i mo¿e napotkaæ ró¿ne przeszkody na swojej drodze, które musi omijaæ lub pokonywaæ, aby znaleŸæ odpowiednie miejsce do zaparkowania. W tym przypadku, jeœli nie wykryto przeszkody, to po prostu kontynuujemy jazdê prosto, poniewa¿ samochód jest w stanie poszukiwania miejsca parkingowego i mo¿e napotkaæ ró¿ne przeszkody na swojej drodze, które musi omijaæ lub pokonywaæ, aby znaleŸæ odpowiednie miejsce do zaparkowania.
+            // Obs³uga przypadku, gdy nie wykryto przeszkody (isObstacleDetected jest false). W tym przypadku, jeœli nie wykryto przeszkody, to mo¿emy kontynuowaæ
+            // jazdê prosto, poniewa¿ samochód jest w stanie poszukiwania miejsca parkingowego i mo¿e napotkaæ ró¿ne przeszkody na swojej drodze, które
+            // musi omijaæ lub pokonywaæ, aby znaleŸæ odpowiednie miejsce do zaparkowania. W tym przypadku, jeœli nie wykryto przeszkody, to po
+            // prostu kontynuujemy jazdê prosto, poniewa¿ samochód jest w stanie poszukiwania miejsca parkingowego i mo¿e napotkaæ ró¿ne przeszkody
+            // na swojej drodze, które musi omijaæ lub pokonywaæ, aby znaleŸæ odpowiednie miejsce do zaparkowania.
             else
             {
                 Debug.Log("FSM: Nie wykryto przeszkody, kontynuujemy jazdê prosto...");

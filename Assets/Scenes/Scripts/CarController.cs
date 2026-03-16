@@ -170,7 +170,9 @@ public class CarController : MonoBehaviour
         // Warunek logiczny - sprawdzam, czy aktualny stan samochodu (currentState) nie jest null, co oznacza, ¿e samochód znajduje siê w jakimœ stanie. 
         if (currentState != null)
         {
-
+            // Je¿eli currentState nie jest null, to wywo³ujê metodê Exit na aktualnym stanie, przekazuj¹c jako argument
+            // ten obiekt (samochód), aby umo¿liwiæ czyszczenie stanu i przygotowanie samochodu do przejœcia do nowego stanu.
+            currentState.Exit(this);   
         }
     }
 }

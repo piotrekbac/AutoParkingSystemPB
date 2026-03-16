@@ -5,6 +5,11 @@ using UnityEngine;
 // Nasza klasa SearchState dziedziczy po interfejsie ICarState
 public class SearchState : ICarState
 {
+    // Tworzê zmienn¹ typu CarSensors, która bêdzie przechowywaæ referencjê do komponentu CarSensors przypisanego do samochodu.
+    // Ten komponent bêdzie odpowiedzialny za dostarczanie informacji o wykrytych przeszkodach i odleg³oœci do nich, co pozwoli na podejmowanie
+    // decyzji dotycz¹cych poruszania siê samochodu podczas poszukiwania miejsca parkingowego.
+    private CarSensors sensors;
+
     // Implementacja metody Enter z interfejsu ICarState. Ta metoda jest wywo³ywana, gdy samochód wchodzi w stan poszukiwania miejsca parkingowego.
     public void Enter(CarController car)
     {

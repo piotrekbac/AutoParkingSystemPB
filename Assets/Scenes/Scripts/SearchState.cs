@@ -45,6 +45,11 @@ public class SearchState : ICarState
                 Debug.Log("FSM: Nie wykryto przeszkody, kontynuujemy jazdê prosto...");
             }
         }    
+    }
+
+    // Implementacja metody Exit z interfejsu ICarState. Ta metoda jest wywo³ywana, gdy samochód opuszcza stan poszukiwania miejsca parkingowego.
+    public void Exit(CarController car)
+    {
         
     }
 }

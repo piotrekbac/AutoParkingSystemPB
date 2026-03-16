@@ -75,7 +75,8 @@ public class SearchState : ICarState
                 // Widzimy pust¹ przestrzeñ (laser jest zielony)
                 if (!isMeasuringGap)
                 {
-                    isMeasuringGap = true;      // Ustawiamy flagê isMeasuringGap na true, co oznacza, ¿e zaczynamy mierzyæ lukê miêdzy samochodami, poniewa¿ wykryliœmy pust¹ przestrzeñ (laser jest zielony).
+                    isMeasuringGap = true;                          // Ustawiamy flagê isMeasuringGap na true, co oznacza, ¿e zaczynamy mierzyæ lukê miêdzy samochodami, poniewa¿ wykryliœmy pust¹ przestrzeñ (laser jest zielony).
+                    gapStartPosition = car.transform.position;      // Ustawiamy gapStartPosition na aktualn¹ pozycjê samochodu, co oznacza, ¿e zaczynamy mierzyæ lukê od tej pozycji, poniewa¿ wykryliœmy pust¹ przestrzeñ (laser jest zielony).
                 }
             }
         }    

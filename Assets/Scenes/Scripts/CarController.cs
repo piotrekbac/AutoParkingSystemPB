@@ -167,6 +167,10 @@ public class CarController : MonoBehaviour
     // takimi jak poszukiwanie miejsca parkingowego, parkowanie, itp.
     private void ChangeState(ICarState newState)
     {
+        // Warunek logiczny - sprawdzam, czy aktualny stan samochodu (currentState) nie jest null, co oznacza, ¿e samochód znajduje siê w jakimœ stanie. 
+        if (currentState != null)
+        {
 
+        }
     }
 }

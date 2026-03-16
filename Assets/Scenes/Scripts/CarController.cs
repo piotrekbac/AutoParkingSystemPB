@@ -174,5 +174,8 @@ public class CarController : MonoBehaviour
             // ten obiekt (samochód), aby umo¿liwiæ czyszczenie stanu i przygotowanie samochodu do przejœcia do nowego stanu.
             currentState.Exit(this);   
         }
+
+        // Aktualizujê aktualny stan samochodu na nowy stan.
+        currentState = newState;    
     }
 }

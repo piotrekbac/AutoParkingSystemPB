@@ -176,6 +176,10 @@ public class CarController : MonoBehaviour
         }
 
         // Aktualizujê aktualny stan samochodu na nowy stan.
-        currentState = newState;    
+        currentState = newState;
+
+        // Je¿eli nowy stan (currentState) nie jest null, to wywo³ujê metodê Enter na nowym stanie, przekazuj¹c jako argument
+        // ten obiekt (samochód), aby umo¿liwiæ inicjalizacjê nowego stanu i przygotowanie samochodu do dzia³ania w tym stanie.
+        currentState.Enter(this);
     }
 }

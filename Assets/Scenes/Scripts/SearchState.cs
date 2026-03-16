@@ -35,7 +35,8 @@ public class SearchState : ICarState
         // Je¿eli ju¿ znaleŸliœmy miejsce, nic wiêcej nie robimy - tylko stoimy 
         if (spotFound)
         {
-
+            car.verticalInput = 0f;         // Ustawiamy wartoœæ wejœcia pionowego na 0, co oznacza, ¿e samochód bêdzie sta³ w miejscu, bez ruchu do przodu lub do ty³u.
+            car.horizontalInput = 0f;       // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie sta³ w miejscu, bez skrêtu w lewo lub w prawo.
         }
 
         // Odbieramy graczowi klawiaturê - AI bêdzie wciskaæ gaz na 30% mocy i jechaæ prosto

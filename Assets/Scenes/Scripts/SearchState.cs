@@ -72,7 +72,11 @@ public class SearchState : ICarState
             // na swojej drodze, które musi omijaæ lub pokonywaæ, aby znaleŸæ odpowiednie miejsce do zaparkowania.
             else
             {
-                Debug.Log("FSM: Nie wykryto przeszkody, kontynuujemy jazdê prosto...");
+                // Widzimy pust¹ przestrzeñ (laser jest zielony)
+                if (!isMeasuringGap)
+                {
+
+                }
             }
         }    
     }

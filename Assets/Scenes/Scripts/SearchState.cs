@@ -27,11 +27,8 @@ public class SearchState : ICarState
     {
         // 1. Odbieramy graczowi klawiaturê - AI bêdzie wciskaæ gaz na 30% mocy i jechaæ prosto
         car.verticalInput = 0.3f;  // Ustawiamy wartoœæ wejœcia pionowego na 0.3, co oznacza, ¿e samochód bêdzie jecha³ z 30% mocy silnika. 
-        car.horizontalInput = 0f;  // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie jecha³ prosto, bez skrêtu.
+        car.horizontalInput = 0f;  // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie jecha³ prosto, bez skrêtu
 
-
-        // 2. Pobieranie informacji naszego lasers 
-        CarSensors sensors = car.GetComponent<CarSensors>();    // Pobieramy komponent CarSensors, który jest przypisany do samochodu
 
         // Warunek logiczny - sprawdzamy, czy komponent CarSensors zosta³ poprawnie pobrany (nie jest null). Jeœli tak, to mo¿emy uzyskaæ dostêp do informacji o wykrytych przeszkodach i odleg³oœci do nich, które s¹ przechowywane w zmiennych isObstacleDetected i currentDistanceToObstacle. Na podstawie tych informacji mo¿na podejmowaæ decyzje dotycz¹ce dalszego poruszania siê samochodu, np. zatrzymanie siê przed przeszkod¹, skrêt w innym kierunku itp.
         if (sensors != null)
@@ -48,6 +45,6 @@ public class SearchState : ICarState
                 Debug.Log("FSM: Nie wykryto przeszkody, kontynuujemy jazdê prosto...");
             }
         }    
-
+        
     }
 }

@@ -96,6 +96,7 @@ public class CarController : MonoBehaviour
         rearRightCollider.motorTorque = verticalInput * motorForce;    // Stosujê si³ê silnika do tylnego prawego ko³a na podstawie wejœcia pionowego i ustawionej si³y silnika.
 
         // Hamulce 
+        float currentBrakeForce = breakInput * 3000f;    // Obliczam aktualn¹ si³ê hamowania - 3000 to mocne klocki hamulcowe
     }
 
     // Metoda HandlerSteeringAckerman - metoda odpowiedzialna za obliczanie k¹tów skrêtu kó³ przednich na podstawie zasady

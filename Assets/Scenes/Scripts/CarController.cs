@@ -40,6 +40,7 @@ public class CarController : MonoBehaviour
     // Zmienne do sterowania FSM
     public float verticalInput;    // Zmienna do przechowywania wartoœci wejœcia pionowego (przyspieszenie/hamowanie).
     public float horizontalInput;  // Zmienna do przechowywania wartoœci wejœcia poziomego (skrêt kó³).
+    public float breakInput;       // Zmienna do przechowywania wartoœci wejœcia hamowania (naciskanie hamulca).
 
 
     // Prywatna zmienna do przechowywania referencji do komponentu Rigidbody, który bêdzie u¿ywany do poruszania siê samochodu.

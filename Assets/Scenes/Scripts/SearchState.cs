@@ -86,7 +86,13 @@ public class SearchState : ICarState
                     // Samochód jedzie zd³u¿ luki, a my mierzymy odleg³oœæ od jej pocz¹tku
 
                     // Obliczamy aktualn¹ szerokoœæ luki miêdzy samochodami, mierz¹c odleg³oœæ miêdzy pozycj¹ pocz¹tkow¹ (gapStartPosition) a aktualn¹ pozycj¹ samochodu (car.transform.position) za pomoc¹ funkcji Vector3.Distance.
-                    float currentGapWidth = Vector3.Distance(gapStartPosition, car.transform.position);  
+                    float currentGapWidth = Vector3.Distance(gapStartPosition, car.transform.position);
+
+                    // Obs³uga przypadku, gdy aktualna szerokoœæ luki (currentGapWidth) jest wiêksza lub równa wymaganej szerokoœci luki (requiredGapWidth). Jeœli aktualna szerokoœæ luki jest wystarczaj¹ca, to mo¿emy uznaæ, ¿e znaleŸliœmy odpowiednie miejsce parkingowe i podj¹æ odpowiednie dzia³ania, np. zatrzymaæ siê, zmieniæ stan na parkowanie itp.
+                    if (currentGapWidth >= requiredGapWidth)
+                    {
+
+                    }
                 }
             }
         }    

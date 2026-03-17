@@ -83,7 +83,7 @@ public class SearchState : ICarState
                 // Obs³ugujemy przypadek, gdy mierzymy lukê isMeasuringGap jest true, co oznacza, ¿e zaczêliœmy mierzyæ lukê miêdzy samochodami
                 else
                 {
-
+                    // Samochód jedzie zd³u¿ luki, a my mierzymy odleg³oœæ od jej pocz¹tku
                 }
             }
         }    

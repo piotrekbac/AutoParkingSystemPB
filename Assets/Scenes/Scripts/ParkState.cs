@@ -7,6 +7,7 @@ public class ParkState : ICarState
     // Metoda Enter jest wywo³ywana, gdy samochód wchodzi w stan parkowania. W tej metodzie mo¿na dodaæ logikê, która bêdzie wykonywana podczas tego stanu, np. zatrzymanie samochodu, ustawienie odpowiednich parametrów itp.
     public void Enter(CarController car)
     {
-
+        // Wypisywanie komunikatu o rozpoczêciu manewru parkowania (bieg wsteczny) do konsoli
+        Debug.Log("FSM: Zaczynam manewr parkowania (Bieg wsteczny)...");
     }
 }

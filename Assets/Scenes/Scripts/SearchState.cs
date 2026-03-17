@@ -84,6 +84,7 @@ public class SearchState : ICarState
                 else
                 {
                     // Samochód jedzie zd³u¿ luki, a my mierzymy odleg³oœæ od jej pocz¹tku
+                    float currentGapWidth = Vector3.Distance(gapStartPosition, car.transform.position);  
                 }
             }
         }    

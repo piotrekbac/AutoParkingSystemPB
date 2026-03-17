@@ -100,6 +100,7 @@ public class CarController : MonoBehaviour
 
         frontLeftCollider.brakeTorque = currentBrakeForce;     // Stosujê si³ê hamowania do przedniego lewego ko³a na podstawie obliczonej si³y hamowania.
         frontRightCollider.brakeTorque = currentBrakeForce;    // Stosujê si³ê hamowania do przedniego prawego ko³a na podstawie obliczonej si³y hamowania.
+        rearLeftCollider.brakeTorque = currentBrakeForce;      // Stosujê si³ê hamowania do tylnego lewego ko³a na podstawie obliczonej si³y hamowania.
     }
 
     // Metoda HandlerSteeringAckerman - metoda odpowiedzialna za obliczanie k¹tów skrêtu kó³ przednich na podstawie zasady

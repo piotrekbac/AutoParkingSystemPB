@@ -38,6 +38,8 @@ public class SearchState : ICarState
             car.verticalInput = 0f;         // Ustawiamy wartoœæ wejœcia pionowego na 0, co oznacza, ¿e samochód bêdzie sta³ w miejscu, bez ruchu do przodu lub do ty³u.
             car.horizontalInput = 0f;       // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie sta³ w miejscu, bez skrêtu w lewo lub w prawo.
             car.breakInput = 1f;            // Ustawiamy wartoœæ wejœcia hamulca na 1, co oznacza, ¿e samochód bêdzie hamowa³ z pe³n¹ si³¹, co pozwoli mu zatrzymaæ siê w miejscu po znalezieniu odpowiedniego miejsca parkingowego (luki miêdzy samochodami).
+
+            return;                         // Zwracamy z metody, poniewa¿ nie ma potrzeby wykonywania dalszej logiki, gdy ju¿ znaleŸliœmy miejsce parkingowe i zatrzymaliœmy samochód. W ten sposób unikamy niepotrzebnych obliczeñ i dzia³añ, które mog³yby zak³óciæ nasz¹ pozycjê po znalezieniu odpowiedniego miejsca parkingowego.
         }
 
         // Odbieramy graczowi klawiaturê - AI bêdzie wciskaæ gaz na 30% mocy i jechaæ prosto

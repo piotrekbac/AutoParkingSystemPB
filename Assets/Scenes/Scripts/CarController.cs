@@ -37,17 +37,16 @@ public class CarController : MonoBehaviour
     public float wheelbase = 2.7f;      // Rozstaw osi samochodu, który bêdzie u¿ywany do obliczania k¹tów skrêtu kó³.
     public float trackWidth = 1.8f;     // Szerokoœæ toru jazdy samochodu, która bêdzie u¿ywana do obliczania k¹tów skrêtu kó³.
 
+    // Zmienne do sterowania FSM
+    public float verticalInput;    // Zmienna do przechowywania wartoœci wejœcia pionowego (przyspieszenie/hamowanie).
+    public float horizontalInput;  // Zmienna do przechowywania wartoœci wejœcia poziomego (skrêt kó³).
+
 
     // Prywatna zmienna do przechowywania referencji do komponentu Rigidbody, który bêdzie u¿ywany do poruszania siê samochodu.
     private Rigidbody rb;
 
     // Zmienna do przechowywania aktualnego stanu samochodu w ramach FSM (Finite State Machine).
     private ICarState currentState;    
-
-
-    public float verticalInput;    // Zmienna do przechowywania wartoœci wejœcia pionowego (przyspieszenie/hamowanie).
-    public float horizontalInput;  // Zmienna do przechowywania wartoœci wejœcia poziomego (skrêt kó³).
-
 
     // Metoda Start jest wywo³ywana na pocz¹tku gry, przed pierwsz¹ klatk¹. 
     void Start()

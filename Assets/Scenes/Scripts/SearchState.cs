@@ -95,6 +95,8 @@ public class SearchState : ICarState
                         Debug.Log($"FSM: SUKCES! Znalaz³em idealne miejsce (Szerokoœæ: {currentGapWidth:F2}m). Zatrzymujê auto!");
 
                         spotFound = true;    // Ustawiamy flagê spotFound na true, co oznacza, ¿e znaleŸliœmy odpowiednie miejsce parkingowe (lukê miêdzy samochodami) podczas poszukiwania.
+
+                        
                     }
                 }
             }

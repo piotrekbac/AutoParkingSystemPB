@@ -91,7 +91,8 @@ public class SearchState : ICarState
                     // Obs³uga przypadku, gdy aktualna szerokoœæ luki (currentGapWidth) jest wiêksza lub równa wymaganej szerokoœci luki (requiredGapWidth). Jeœli aktualna szerokoœæ luki jest wystarczaj¹ca, to mo¿emy uznaæ, ¿e znaleŸliœmy odpowiednie miejsce parkingowe i podj¹æ odpowiednie dzia³ania, np. zatrzymaæ siê, zmieniæ stan na parkowanie itp.
                     if (currentGapWidth >= requiredGapWidth)
                     {
-
+                        // Wyœwietlam komunikat o sukcesie znalezienia idealnego miejsca parkingowego, wraz z aktualn¹ szerokoœci¹ luki (currentGapWidth) sformatowan¹ do dwóch miejsc po przecinku, co oznacza, ¿e znaleŸliœmy odpowiednie miejsce parkingowe i mo¿emy zatrzymaæ samochód.
+                        Debug.Log($"FSM: SUKCES! Znalaz³em idealne miejsce (Szerokoœæ: {currentGapWidth:F2}m). Zatrzymujê auto!");
                     }
                 }
             }

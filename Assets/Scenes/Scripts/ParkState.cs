@@ -34,6 +34,7 @@ public class ParkState : ICarState
     }
 
     // Funkcja pomocnicza - o wiele ³atwiej liczy siê, gdy k¹t w lewo to np. -40 stopni, a prawo to +40 stopni. 
+    // Unity z nautry podaje k¹ty jako 0 do 360 stopni - dlatego t¹ metod¹ u³atwiamy sobie ¿ycie oraz obliczenia
     private float GetNormalizedAngle(float angle)
     {
         

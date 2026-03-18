@@ -23,6 +23,7 @@ public class ParkState : ICarState
     // Metoda Exit jest wywo³ywana, gdy samochód opuszcza stan parkowania. Tutaj mo¿na dodaæ logikê, która bêdzie wykonywana podczas opuszczania tego stanu, np. przygotowanie samochodu do jazdy itp.
     public void Exit(CarController car)
     {
-        
+        // Wypisywanie komunikatu o zakoñczeniu manewru parkowania do konsoli
+        Debug.Log("FSM: Zakoñczy³em manewr parkowania.");
     }
 }

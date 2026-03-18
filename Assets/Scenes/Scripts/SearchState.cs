@@ -41,16 +41,16 @@ public class SearchState : ICarState
             // Podje¿d¿amy dodatkowe 2.5 metra do przodu, ¿eby zrównaæ siê z pojazdem, z przodu 
             if (distanceDrivenPastSpot < 2.5f)
             {
-                car.verticalInput = 0.2f;  // Ustawiamy wartoœæ wejœcia pionowego na 0.2, co oznacza, ¿e samochód bêdzie jecha³ z 30% mocy silnika, aby podjechaæ do przodu i wyrównaæ siê z pojazdem z przodu.
-                car.horizontalInput = 0f;  // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie jecha³ prosto, bez skrêtu, aby podjechaæ do przodu i wyrównaæ siê z pojazdem z przodu.
-                car.breakInput = 0f;       // Ustawiamy wartoœæ wejœcia hamulca na 0, co oznacza, ¿e samochód nie bêdzie hamowa³, co pozwoli mu swobodnie poruszaæ siê do przodu i wyrównaæ siê z pojazdem z przodu.
+                car.verticalInput = 0.2f;       // Ustawiamy wartoœæ wejœcia pionowego na 0.2, co oznacza, ¿e samochód bêdzie jecha³ z 30% mocy silnika, aby podjechaæ do przodu i wyrównaæ siê z pojazdem z przodu.
+                car.horizontalInput = 0f;       // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie jecha³ prosto, bez skrêtu, aby podjechaæ do przodu i wyrównaæ siê z pojazdem z przodu.
+                car.breakInput = 0f;            // Ustawiamy wartoœæ wejœcia hamulca na 0, co oznacza, ¿e samochód nie bêdzie hamowa³, co pozwoli mu swobodnie poruszaæ siê do przodu i wyrównaæ siê z pojazdem z przodu.
             }
         }
 
         // Odbieramy graczowi klawiaturê - AI bêdzie wciskaæ gaz na 30% mocy i jechaæ prosto
-        car.verticalInput = 0.3f;  // Ustawiamy wartoœæ wejœcia pionowego na 0.3, co oznacza, ¿e samochód bêdzie jecha³ z 30% mocy silnika. 
-        car.horizontalInput = 0f;  // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie jecha³ prosto, bez skrêtu
-        car.breakInput = 0f;       // Ustawiamy wartoœæ wejœcia hamulca na 0, co oznacza, ¿e samochód nie bêdzie hamowa³, co pozwoli mu swobodnie poruszaæ siê podczas poszukiwania miejsca parkingowego.
+        car.verticalInput = 0.3f;       // Ustawiamy wartoœæ wejœcia pionowego na 0.3, co oznacza, ¿e samochód bêdzie jecha³ z 30% mocy silnika. 
+        car.horizontalInput = 0f;       // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie jecha³ prosto, bez skrêtu
+        car.breakInput = 0f;            // Ustawiamy wartoœæ wejœcia hamulca na 0, co oznacza, ¿e samochód nie bêdzie hamowa³, co pozwoli mu swobodnie poruszaæ siê podczas poszukiwania miejsca parkingowego.
 
         // Warunek logiczny - sprawdzamy, czy komponent CarSensors zosta³ poprawnie pobrany (nie jest null). Jeœli tak, to mo¿emy uzyskaæ dostêp do informacji
         // o wykrytych przeszkodach i odleg³oœci do nich, które s¹ przechowywane w zmiennych isObstacleDetected i currentDistanceToObstacle.

@@ -41,7 +41,7 @@ public class SearchState : ICarState
             // Podje¿d¿amy dodatkowe 2.5 metra do przodu, ¿eby zrównaæ siê z pojazdem, z przodu 
             if (distanceDrivenPastSpot < 2.5f)
             {
-
+                car.verticalInput = 0.2f;  // Ustawiamy wartoœæ wejœcia pionowego na 0.2, co oznacza, ¿e samochód bêdzie jecha³ z 30% mocy silnika, aby podjechaæ do przodu i wyrównaæ siê z pojazdem z przodu.
             }
         }
 

@@ -22,6 +22,12 @@ public class ParkState : ICarState
     {
         float currentAngle = GetNormalizedAngle(car.transform.eulerAngles.y);       // Pobieramy aktualny k¹t obrotu samochodu wokó³ osi Y i normalizujemy go do zakresu -180 do 180 stopni, co u³atwia porównania k¹tów podczas parkowania.
 
+        // Obslugujemy pocz¹tkow¹ fazê parkowania 
+        if (parkingPhase == 0)
+        {
+
+        }
+
         // Na razie tylko stoimy i trzymamy hamulec
         car.verticalInput = 0f;       // Ustawiamy wartoœæ wejœcia pionowego na 0, co oznacza, ¿e samochód bêdzie sta³ w miejscu, bez ruchu do przodu lub do ty³u.
         car.horizontalInput = 0f;     // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie sta³ w miejscu, bez skrêtu w lewo lub w prawo.

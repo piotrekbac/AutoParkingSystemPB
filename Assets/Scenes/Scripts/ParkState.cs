@@ -12,6 +12,9 @@ public class ParkState : ICarState
     {
         // Wypisywanie komunikatu o rozpoczêciu manewru parkowania (bieg wsteczny) do konsoli
         Debug.Log("FSM: Zaczynam manewr parkowania (Bieg wsteczny)...");
+
+        // Upewniamy siê, ¿e startujemy od fazy 0
+        parkingPhase = 0;   
     }
 
     // Metoda UpdateState - wywo³ywana w ka¿dej klatce, gdy samochód znajduje siê w stanie parkowania. Tutaj mo¿na dodaæ logikê, która bêdzie wykonywana podczas tego stanu, np. poruszanie siê do ty³u, skrêt itp.

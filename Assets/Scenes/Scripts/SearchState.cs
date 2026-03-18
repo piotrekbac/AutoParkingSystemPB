@@ -43,6 +43,7 @@ public class SearchState : ICarState
             {
                 car.verticalInput = 0.2f;  // Ustawiamy wartoœæ wejœcia pionowego na 0.2, co oznacza, ¿e samochód bêdzie jecha³ z 30% mocy silnika, aby podjechaæ do przodu i wyrównaæ siê z pojazdem z przodu.
                 car.horizontalInput = 0f;  // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie jecha³ prosto, bez skrêtu, aby podjechaæ do przodu i wyrównaæ siê z pojazdem z przodu.
+                car.breakInput = 0f;       // Ustawiamy wartoœæ wejœcia hamulca na 0, co oznacza, ¿e samochód nie bêdzie hamowa³, co pozwoli mu swobodnie poruszaæ siê do przodu i wyrównaæ siê z pojazdem z przodu.
             }
         }
 

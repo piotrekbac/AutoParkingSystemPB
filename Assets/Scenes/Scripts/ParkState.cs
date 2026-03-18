@@ -37,6 +37,6 @@ public class ParkState : ICarState
     // Unity z nautry podaje k¹ty jako 0 do 360 stopni - dlatego t¹ metod¹ u³atwiamy sobie ¿ycie oraz obliczenia
     private float GetNormalizedAngle(float angle)
     {
-        
+        angle = angle % 360;    // Upewniamy siê, ¿e k¹t jest w zakresie 0-360 stopni
     }
 }

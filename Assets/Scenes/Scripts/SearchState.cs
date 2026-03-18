@@ -54,6 +54,9 @@ public class SearchState : ICarState
                 car.verticalInput = 0f;             // Ustawiamy wartoœæ wejœcia pionowego na 0, co oznacza, ¿e samochód bêdzie sta³ w miejscu, bez ruchu do przodu lub do ty³u, gotowy do rozpoczêcia manewru parkowania.
                 car.ChangeState(new ParkState());   // Zmieniamy stan samochodu na nowy obiekt ParkState, co oznacza, ¿e przechodzimy do stanu parkowania i rozpoczynamy manewr parkowania.
             }
+
+            return;     // Je¿eli ju¿ znaleŸliœmy miejsce, to po wykonaniu powy¿szych dzia³añ (podjechanie do przodu i zatrzymanie siê) koñczymy aktualizacjê stanu i nie wykonujemy dalszej logiki poszukiwania miejsca parkingowego, poniewa¿ jesteœmy ju¿ gotowi do rozpoczêcia manewru parkowania.
+
         }
 
         // Odbieramy graczowi klawiaturê - AI bêdzie wciskaæ gaz na 30% mocy i jechaæ prosto

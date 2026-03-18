@@ -45,6 +45,12 @@ public class SearchState : ICarState
                 car.horizontalInput = 0f;       // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie jecha³ prosto, bez skrêtu, aby podjechaæ do przodu i wyrównaæ siê z pojazdem z przodu.
                 car.breakInput = 0f;            // Ustawiamy wartoœæ wejœcia hamulca na 0, co oznacza, ¿e samochód nie bêdzie hamowa³, co pozwoli mu swobodnie poruszaæ siê do przodu i wyrównaæ siê z pojazdem z przodu.
             }
+
+            // je¿eli przejechaliœmy ju¿ 2.5 metra, to zatrzymujemy samochód i przechodzimy do stanu parkowania (ParkState), poniewa¿ jesteœmy ju¿ wyrównani z pojazdem z przodu i mo¿emy rozpocz¹æ manewr parkowania.
+            else
+            {
+
+            }
         }
 
         // Odbieramy graczowi klawiaturê - AI bêdzie wciskaæ gaz na 30% mocy i jechaæ prosto

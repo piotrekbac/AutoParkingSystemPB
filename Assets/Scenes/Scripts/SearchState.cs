@@ -116,7 +116,6 @@ public class SearchState : ICarState
 
                         spotFound = true;    // Ustawiamy flagê spotFound na true, co oznacza, ¿e znaleŸliœmy odpowiednie miejsce parkingowe (lukê miêdzy samochodami) podczas poszukiwania.
 
-                        
                     }
                 }
             }

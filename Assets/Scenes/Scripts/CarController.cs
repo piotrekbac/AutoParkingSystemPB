@@ -174,7 +174,7 @@ public class CarController : MonoBehaviour
     // Przyjmuje jako argument nowy stan, do którego samochód ma przejœæ, i aktualizuje aktualny stan samochodu na ten nowy stan.
     // Ta metoda jest kluczowa dla zarz¹dzania logik¹ stanu samochodu i umo¿liwia p³ynne przechodzenie miêdzy ró¿nymi stanami,
     // takimi jak poszukiwanie miejsca parkingowego, parkowanie, itp.
-    private void ChangeState(ICarState newState)
+    public void ChangeState(ICarState newState)
     {
         // Warunek logiczny - sprawdzam, czy aktualny stan samochodu (currentState) nie jest null, co oznacza, ¿e samochód znajduje siê w jakimœ stanie. 
         if (currentState != null)

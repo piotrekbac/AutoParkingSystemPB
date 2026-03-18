@@ -50,8 +50,9 @@ public class SearchState : ICarState
             else
             {
                 // Jesteœmy w idealnej pozycji startowej do "koperty" (parkowanie na kopertê)
-                car.breakInput = 1f;          // Ustawiamy wartoœæ wejœcia hamulca na 1, co oznacza, ¿e samochód bêdzie hamowa³ z pe³n¹ si³¹, co pozwoli mu zatrzymaæ siê w miejscu, gotowy do rozpoczêcia manewru parkowania.
-                car.verticalInput = 0f;       // Ustawiamy wartoœæ wejœcia pionowego na 0, co oznacza, ¿e samochód bêdzie sta³ w miejscu, bez ruchu do przodu lub do ty³u, gotowy do rozpoczêcia manewru parkowania.
+                car.breakInput = 1f;                // Ustawiamy wartoœæ wejœcia hamulca na 1, co oznacza, ¿e samochód bêdzie hamowa³ z pe³n¹ si³¹, co pozwoli mu zatrzymaæ siê w miejscu, gotowy do rozpoczêcia manewru parkowania.
+                car.verticalInput = 0f;             // Ustawiamy wartoœæ wejœcia pionowego na 0, co oznacza, ¿e samochód bêdzie sta³ w miejscu, bez ruchu do przodu lub do ty³u, gotowy do rozpoczêcia manewru parkowania.
+                car.ChangeState(new ParkState());   // Zmieniamy stan samochodu na nowy obiekt ParkState, co oznacza, ¿e przechodzimy do stanu parkowania i rozpoczynamy manewr parkowania.
             }
         }
 

@@ -32,4 +32,10 @@ public class ParkState : ICarState
         // Wypisywanie komunikatu o zakoñczeniu manewru parkowania do konsoli
         Debug.Log("FSM: Zakoñczy³em manewr parkowania.");
     }
+
+    // Funkcja pomocnicza - o wiele ³atwiej liczy siê, gdy k¹t w lewo to np. -40 stopni, a prawo to +40 stopni. 
+    private float GetNormalizedAngle(float angle)
+    {
+        
+    }
 }

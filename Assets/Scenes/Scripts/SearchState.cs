@@ -49,7 +49,8 @@ public class SearchState : ICarState
             // je¿eli przejechaliœmy ju¿ 2.5 metra, to zatrzymujemy samochód i przechodzimy do stanu parkowania (ParkState), poniewa¿ jesteœmy ju¿ wyrównani z pojazdem z przodu i mo¿emy rozpocz¹æ manewr parkowania.
             else
             {
-
+                // Jesteœmy w idealnej pozycji startowej do "koperty" (parkowanie na kopertê)
+                car.breakInput = 1f;          // Ustawiamy wartoœæ wejœcia hamulca na 1, co oznacza, ¿e samochód bêdzie hamowa³ z pe³n¹ si³¹, co pozwoli mu zatrzymaæ siê w miejscu, gotowy do rozpoczêcia manewru parkowania.
             }
         }
 

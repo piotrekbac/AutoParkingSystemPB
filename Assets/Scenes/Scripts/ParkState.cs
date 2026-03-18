@@ -51,5 +51,7 @@ public class ParkState : ICarState
         {
             return angle + 360f;        // Normalizujemy k¹t do zakresu -180 do 180 stopni, co u³atwia obliczenia i porównania k¹tów podczas parkowania.
         }
+
+        return angle;                   // Zwracamy znormalizowany k¹t, który jest teraz w zakresie -180 do 180 stopni, co u³atwia obliczenia i porównania k¹tów podczas parkowania.
     }
 }

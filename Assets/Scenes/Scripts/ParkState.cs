@@ -39,12 +39,12 @@ public class ParkState : ICarState
     {
         angle = angle % 360;    // Upewniamy siê, ¿e k¹t jest w zakresie 0-360 stopni
 
-        // Jeœli k¹t jest wiêkszy ni¿ 100 stopni, to odejmujemy 360, aby uzyskaæ wartoœæ w zakresie -180 do 180 stopni. Dziêki temu ³atwiej bêdzie porównywaæ k¹ty podczas parkowania, poniewa¿
+        // Jeœli k¹t jest wiêkszy ni¿ 180 stopni, to odejmujemy 360, aby uzyskaæ wartoœæ w zakresie -180 do 180 stopni. Dziêki temu ³atwiej bêdzie porównywaæ k¹ty podczas parkowania, poniewa¿
         // k¹t w lewo bêdzie reprezentowany jako ujemna wartoœæ, a k¹t w prawo jako dodatnia wartoœæ. Na przyk³ad, jeœli k¹t wynosi 350 stopni, to po normalizacji bêdzie
         // wynosi³ -10 stopni, co oznacza, ¿e samochód jest lekko skrêcony w lewo. Jeœli k¹t wynosi 10 stopni, to po normalizacji pozostanie 10 stopni, co oznacza, ¿e samochód jest lekko skrêcony w prawo.
-        if (angle > 100f)
+        if (angle > 180f)
         {
-            
+            return angle - 360f;        // Normalizujemy k¹t do zakresu -180 do 180 stopni, co u³atwia obliczenia i porównania k¹tów podczas parkowania.
         }
     }
 }

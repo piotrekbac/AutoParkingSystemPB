@@ -31,9 +31,8 @@ public class ParkState : ICarState
         // Sprawdzamy, czy samochód jest w fazie -1 parkowania, co oznacza, ¿e nie zosta³ jeszcze zdefiniowany etap parkowania. W tej fazie mo¿na dodaæ logikê, która bêdzie wykonywana, np. przygotowanie samochodu do parkowania, ustawienie odpowiednich parametrów itp. Na razie jest to puste, ale mo¿na je rozbudowaæ w zale¿noœci od potrzeb i preferencji dotycz¹cych manewru parkowania.
         if (parkingPhase == -1)
         {
-            Debug.Log("FSM: Zatrzymujê auto przed manewrem parkowania...");      // Wypisujemy komunikat do konsoli, informuj¹cy o zatrzymaniu samochodu przed manewrem parkowania, co oznacza, ¿e samochód jest gotowy do rozpoczêcia manewru parkowania i teraz mo¿na dodaæ logikê, która bêdzie wykonywana podczas tej fazy, np. ustawienie odpowiednich parametrów, przygotowanie samochodu itp.
-            parkingPhase = -1;   // Ustawiamy fazê parkowania na -1, co oznacza, ¿e samochód jest w fazie przygotowania do parkowania. W tej fazie mo¿na dodaæ logikê, która bêdzie wykonywana, np. ustawienie odpowiednich parametrów, przygotowanie samochodu itp. Na razie jest to tylko informacja o zatrzymaniu samochodu przed manewrem parkowania, ale mo¿na j¹ rozbudowaæ w zale¿noœci od potrzeb i prefer
-            timer = 0f;          // Resetujemy timer, jeœli chcemy go u¿ywaæ do œledzenia czasu spêdzonego w tej fazie parkowania. Na razie jest to tylko przygotowanie do ewentualnego wykorzystania tego timera w przysz³oœci, np. do implementacji opóŸnieñ czy warunków czasowych dla tej fazy parkowania.
+             // Faza -1: Pe³ne zatrzymanie (Zabijamy pêd samochodu) 
+
         }
 
 

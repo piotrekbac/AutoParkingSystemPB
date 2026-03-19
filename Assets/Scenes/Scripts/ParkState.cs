@@ -54,6 +54,12 @@ public class ParkState : ICarState
                 Debug.Log("FSM: SUKCES! Koñczê manewr parkowania!");      // Wypisujemy komunikat do konsoli, informuj¹cy o osi¹gniêciu k¹ta bliskiego 0 stopni i zakoñczeniu manewru parkowania, co oznacza, ¿e samochód jest prawie prosto wzglêdem drogi i teraz
             }
         }
+
+        // Sprawdzamy, czy samochód jest w fazie 2 parkowania, co oznacza, ¿e osi¹gn¹³ ju¿ k¹t bliski 0 stopni podczas cofania. W tej fazie mo¿na dodaæ logikê, która bêdzie wykonywana, np. kontynuowanie jazdy do przodu, skrêt w lewo itp. Na razie jest to puste, ale mo¿na je rozbudowaæ w zale¿noœci od potrzeb i preferencji dotycz¹cych manewru parkowania.
+        else if (parkingPhase == 2)
+        {
+
+        }
     }
 
     // Metoda Exit jest wywo³ywana, gdy samochód opuszcza stan parkowania. Tutaj mo¿na dodaæ logikê, która bêdzie wykonywana podczas opuszczania tego stanu, np. przygotowanie samochodu do jazdy itp.

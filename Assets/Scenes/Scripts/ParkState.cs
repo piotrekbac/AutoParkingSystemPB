@@ -31,8 +31,8 @@ public class ParkState : ICarState
         // Sprawdzamy, czy samochód jest w fazie -1 parkowania, co oznacza, ¿e nie zosta³ jeszcze zdefiniowany etap parkowania. W tej fazie mo¿na dodaæ logikê, która bêdzie wykonywana, np. przygotowanie samochodu do parkowania, ustawienie odpowiednich parametrów itp. Na razie jest to puste, ale mo¿na je rozbudowaæ w zale¿noœci od potrzeb i preferencji dotycz¹cych manewru parkowania.
         if (parkingPhase == -1)
         {
-             // Faza -1: Pe³ne zatrzymanie (Zabijamy pêd samochodu) 
-
+            // Faza -1: Pe³ne zatrzymanie (Zabijamy pêd samochodu) 
+            car.horizontalInput = 0f;     // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód nie bêdzie skrêca³ podczas tej fazy parkowania. Samochód bêdzie porusza³ siê prosto do przodu lub do ty³u, w zale¿noœci od ustawienia wejœcia pionowego.
         }
 
 

@@ -41,6 +41,7 @@ public class ParkState : ICarState
         // Sprawdzamy, czy samochód jest w fazie 1 parkowania, co oznacza, ¿e osi¹gn¹³ ju¿ k¹t -40 stopni podczas cofania. W tej fazie mo¿na dodaæ logikê, która bêdzie wykonywana, np. kontynuowanie cofania, skrêt w prawo itp. Na razie jest to puste, ale mo¿na je rozbudowaæ w zale¿noœci od potrzeb i preferencji dotycz¹cych manewru parkowania.
         else if (parkingPhase == 1)
         {
+            // Faza 2: Wsuwamy przód auta (skrêt w lewo i jazda do ty³u)
 
         }
     }

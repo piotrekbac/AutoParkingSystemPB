@@ -964,7 +964,7 @@ Transform:
   m_GameObject: {fileID: 1253510469}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 2, y: 1, z: 4.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1294,6 +1294,7 @@ MonoBehaviour:
   trackWidth: 1.8
   verticalInput: 0
   horizontalInput: 0
+  breakInput: 0
 --- !u!114 &1594047625
 MonoBehaviour:
   m_ObjectHideFlags: 0

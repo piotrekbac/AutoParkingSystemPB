@@ -34,6 +34,7 @@ public class ParkState : ICarState
             if (currentAngle <= -40f)
             {
                 parkingPhase = 1;   // Przechodzimy do nastêpnej fazy parkowania, gdy samochód osi¹gnie k¹t -40 stopni, co oznacza, ¿e jest odpowiednio skrêcony w lewo podczas cofania. W tej fazie mo¿na dodaæ kolejn¹ logikê, np. kontynuowanie cofania, skrêt w prawo itp.
+                Debug.Log("FSM: Auto jest pod k¹tem 40 stopni. Robie KONTRÊ KIEROWNIC¥!");      // Wypisujemy komunikat do konsoli, informuj¹cy o osi¹gniêciu k¹ta 40 stopni i koniecznoœci wykonania kontr-kierownicy, co oznacza, ¿e samochód jest odpowiednio skrêcony w lewo podczas cofania i teraz nale¿y wykonaæ skrêt w prawo
             }
         }
     }

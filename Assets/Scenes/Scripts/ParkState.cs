@@ -33,7 +33,7 @@ public class ParkState : ICarState
             // Czekamy, a¿ odwróci sie o 40 stopni
             if (currentAngle <= -40f)
             {
-
+                parkingPhase = 1;   // Przechodzimy do nastêpnej fazy parkowania, gdy samochód osi¹gnie k¹t -40 stopni, co oznacza, ¿e jest odpowiednio skrêcony w lewo podczas cofania. W tej fazie mo¿na dodaæ kolejn¹ logikê, np. kontynuowanie cofania, skrêt w prawo itp.
             }
         }
     }

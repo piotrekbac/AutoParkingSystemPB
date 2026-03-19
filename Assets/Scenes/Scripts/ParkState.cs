@@ -37,6 +37,12 @@ public class ParkState : ICarState
                 Debug.Log("FSM: Auto jest pod k¹tem 40 stopni. Robie KONTRÊ KIEROWNIC¥!");      // Wypisujemy komunikat do konsoli, informuj¹cy o osi¹gniêciu k¹ta 40 stopni i koniecznoœci wykonania kontr-kierownicy, co oznacza, ¿e samochód jest odpowiednio skrêcony w lewo podczas cofania i teraz nale¿y wykonaæ skrêt w prawo
             }
         }
+
+        // Sprawdzamy, czy samochód jest w fazie 1 parkowania, co oznacza, ¿e osi¹gn¹³ ju¿ k¹t -40 stopni podczas cofania. W tej fazie mo¿na dodaæ logikê, która bêdzie wykonywana, np. kontynuowanie cofania, skrêt w prawo itp. Na razie jest to puste, ale mo¿na je rozbudowaæ w zale¿noœci od potrzeb i preferencji dotycz¹cych manewru parkowania.
+        else if (parkingPhase == 1)
+        {
+
+        }
     }
 
     // Metoda Exit jest wywo³ywana, gdy samochód opuszcza stan parkowania. Tutaj mo¿na dodaæ logikê, która bêdzie wykonywana podczas opuszczania tego stanu, np. przygotowanie samochodu do jazdy itp.

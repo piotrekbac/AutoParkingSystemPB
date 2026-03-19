@@ -58,7 +58,8 @@ public class ParkState : ICarState
         // Sprawdzamy, czy samochód jest w fazie 2 parkowania, co oznacza, ¿e osi¹gn¹³ ju¿ k¹t bliski 0 stopni podczas cofania. W tej fazie mo¿na dodaæ logikê, która bêdzie wykonywana, np. kontynuowanie jazdy do przodu, skrêt w lewo itp. Na razie jest to puste, ale mo¿na je rozbudowaæ w zale¿noœci od potrzeb i preferencji dotycz¹cych manewru parkowania.
         else if (parkingPhase == 2)
         {
-
+            // Faza 3 - Auto jest ju¿ prosto, wiêc mo¿emy zakoñczyæ manewr parkowania - ustawiamy wszystkie wejœcia na 0, aby zatrzymaæ samochód
+            car.horizontalInput = 0f;     // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód nie bêdzie skrêca³ podczas tej fazy parkowania. Samochód bêdzie porusza³ siê prosto do przodu lub do ty³u, w zale¿noœci od ustawienia wejœcia pionowego.
         }
     }
 

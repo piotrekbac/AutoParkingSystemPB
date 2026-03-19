@@ -45,6 +45,13 @@ public class ParkState : ICarState
             car.horizontalInput = -1f;      // Ustawiamy wartoœæ wejœcia poziomego na -1, co oznacza, ¿e samochód bêdzie skrêca³ maksymalnie w lewo podczas poruszania siê do ty³u. Ta wartoœæ mo¿e byæ dostosowana w zale¿noœci od potrzeb i prefer
             car.verticalInput = -0.3f;      // Ustawiamy wartoœæ wejœcia pionowego na -0.3, co oznacza, ¿e samochód bêdzie porusza³ siê do przodu (bieg do przodu) z mniejsz¹ prêdkoœci¹. Ta wartoœæ mo¿e byæ dostosowana w zale¿noœci od potrzeb i prefer
             car.breakInput = 0f;            // Ustawiamy wartoœæ wejœcia hamulca na 0
+
+            // Auto zaczyna siê prostowaæ - wiêc k¹t wraca z -40 stopni, z powrotem do 0 stopni. 
+            // Sprawdzamy czy k¹t jest bardzo blisko zera (idealnie prosto z drog¹)
+            if (currentAngle >= -2f || currentAngle > 0f)
+            {
+
+            }
         }
     }
 

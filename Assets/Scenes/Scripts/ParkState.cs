@@ -25,13 +25,10 @@ public class ParkState : ICarState
         // Obslugujemy pocz¹tkow¹ fazê parkowania 
         if (parkingPhase == 0)
         {
-
+            car.verticalInput = 1f;          // Ustawiamy wartoœæ wejœcia pionowego na 1, co oznacza, ¿e samochód bêdzie porusza³ siê do ty³u (bieg wsteczny). 
+            car.horizontalInput = -0.3f;     // Ustawiamy wartoœæ wejœcia poziomego na -0.3, co oznacza, ¿e samochód bêdzie skrêca³ w lewo podczas poruszania siê do ty³u. Ta wartoœæ mo¿e byæ dostosowana w zale¿noœci od potrzeb i prefer
+            car.breakInput = 0f;             // Ustawiamy wartoœæ wejœcia hamulca na 0, co oznacza, ¿e hamulec nie jest aktywowany podczas tej fazy parkowania. Samochód bêdzie porusza³ siê do ty³u bez hamowania.
         }
-
-        // Na razie tylko stoimy i trzymamy hamulec
-        car.verticalInput = 0f;       // Ustawiamy wartoœæ wejœcia pionowego na 0, co oznacza, ¿e samochód bêdzie sta³ w miejscu, bez ruchu do przodu lub do ty³u.
-        car.horizontalInput = 0f;     // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód bêdzie sta³ w miejscu, bez skrêtu w lewo lub w prawo.
-        car.breakInput = 1f;          // Ustawiamy wartoœæ wejœcia hamulca na 1, co oznacza, ¿e samochód bêdzie hamowa³ z pe³n¹ si³¹, co pozwoli mu zatrzymaæ siê w miejscu podczas parkowania.
     }
 
     // Metoda Exit jest wywo³ywana, gdy samochód opuszcza stan parkowania. Tutaj mo¿na dodaæ logikê, która bêdzie wykonywana podczas opuszczania tego stanu, np. przygotowanie samochodu do jazdy itp.

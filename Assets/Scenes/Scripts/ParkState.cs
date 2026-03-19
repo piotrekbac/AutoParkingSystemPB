@@ -42,7 +42,7 @@ public class ParkState : ICarState
         else if (parkingPhase == 1)
         {
             // Faza 2: Wsuwamy przód auta (skrêt w lewo i jazda do ty³u)
-
+            car.horizontalInput = -1f;      // Ustawiamy wartoœæ wejœcia poziomego na -1, co oznacza, ¿e samochód bêdzie skrêca³ maksymalnie w lewo podczas poruszania siê do ty³u. Ta wartoœæ mo¿e byæ dostosowana w zale¿noœci od potrzeb i prefer
         }
     }
 

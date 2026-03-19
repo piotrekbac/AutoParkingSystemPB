@@ -5,9 +5,12 @@ using UnityEngine;
 public class ParkState : ICarState
 {
     // Prywatna zmienna parkingPhase, która mo¿e byæ u¿ywana do œledzenia fazy parkowania. Mo¿na j¹ wykorzystaæ do implementacji ró¿nych etapów manewru parkowania, takich jak ustawianie samochodu, skrêt itp. Na razie jest ustawiona na 0, co oznacza, ¿e nie ma jeszcze zdefiniowanych faz parkowania.
-    private int parkingPhase = 0;
+    private int parkingPhase = -1;
 
-    // Metoda Enter jest wywo³ywana, gdy samochód wchodzi w stan parkowania. W tej metodzie mo¿na dodaæ logikê, która bêdzie wykonywana podczas tego stanu, np. zatrzymanie samochodu, ustawienie odpowiednich parametrów itp.
+    // Prywatna zmienna timer, która mo¿e byæ u¿ywana do œledzenia czasu spêdzonego w danym stanie parkowania. Mo¿na j¹ wykorzystaæ do implementacji opóŸnieñ, czasowych warunków przejœcia do innych stanów itp. Na razie jest ustawiona na 0, co oznacza, ¿e nie ma jeszcze zdefiniowanych opóŸnieñ ani warunków czasowych dla tego stanu parkowania.
+    private float timer = 0f;
+
+    // Metoda Enter jest wywo³ywana, gdy samochód wchodzi w stan parkowania. W tej metodzie mo¿na dodaæ logikê, która bêdzie wykonywana podczas tego stanu, np. zatrzymanie samochodu, ustawienie odpowiednich parametrów itp.s
     public void Enter(CarController car)
     {
         // Wypisywanie komunikatu o rozpoczêciu manewru parkowania (bieg wsteczny) do konsoli

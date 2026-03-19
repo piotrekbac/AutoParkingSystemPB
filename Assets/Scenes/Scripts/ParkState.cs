@@ -51,7 +51,7 @@ public class ParkState : ICarState
             if (currentAngle >= -2f || currentAngle > 0f)
             {
                 parkingPhase = 2;   // Przechodzimy do nastêpnej fazy parkowania, gdy samochód osi¹gnie k¹t bliski 0 stopni, co oznacza, ¿e jest prawie prosto wzglêdem drogi. W tej fazie mo¿na dodaæ kolejn¹ logikê, np. kontynuowanie jazdy do przodu, skrêt w lewo itp.
-                Debug.Log("FSM: Auto jest prawie prosto. Koñczê manewr parkowania!");      // Wypisujemy komunikat do konsoli, informuj¹cy o osi¹gniêciu k¹ta bliskiego 0 stopni i zakoñczeniu manewru parkowania, co oznacza, ¿e samochód jest prawie prosto wzglêdem drogi i teraz
+                Debug.Log("FSM: SUKCES! Koñczê manewr parkowania!");      // Wypisujemy komunikat do konsoli, informuj¹cy o osi¹gniêciu k¹ta bliskiego 0 stopni i zakoñczeniu manewru parkowania, co oznacza, ¿e samochód jest prawie prosto wzglêdem drogi i teraz
             }
         }
     }

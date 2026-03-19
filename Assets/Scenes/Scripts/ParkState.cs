@@ -16,8 +16,8 @@ public class ParkState : ICarState
         // Wypisywanie komunikatu o rozpoczêciu manewru parkowania (bieg wsteczny) do konsoli
         Debug.Log("FSM: Zaczynam manewr parkowania (Bieg wsteczny)...");
 
-        // Upewniamy siê, ¿e startujemy od fazy 0
-        parkingPhase = 0;
+        // Upewniamy siê, ¿e startujemy od fazy -1
+        parkingPhase = -1;
 
         // Resetujemy timer, jeœli chcemy go u¿ywaæ do œledzenia czasu spêdzonego w stanie parkowania. Na razie jest to tylko przygotowanie do ewentualnego wykorzystania tego timera w przysz³oœci, np. do implementacji opóŸnieñ czy warunków czasowych dla tego stanu parkowania.
         timer = 0f;
@@ -27,6 +27,13 @@ public class ParkState : ICarState
     public void UpdateState(CarController car)
     {
         float currentAngle = GetNormalizedAngle(car.transform.eulerAngles.y);       // Pobieramy aktualny k¹t obrotu samochodu wokó³ osi Y i normalizujemy go do zakresu -180 do 180 stopni, co u³atwia porównania k¹tów podczas parkowania.
+
+        // Sprawdzamy, czy samochód jest w fazie -1 parkowania, co oznacza, ¿e nie zosta³ jeszcze zdefiniowany etap parkowania. W tej fazie mo¿na dodaæ logikê, która bêdzie wykonywana, np. przygotowanie samochodu do parkowania, ustawienie odpowiednich parametrów itp. Na razie jest to puste, ale mo¿na je rozbudowaæ w zale¿noœci od potrzeb i preferencji dotycz¹cych manewru parkowania.
+        if (parkingPhase == -1)
+        {
+
+        }
+
 
         // Obslugujemy pocz¹tkow¹ fazê parkowania 
         if (parkingPhase == 0)

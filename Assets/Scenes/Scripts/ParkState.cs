@@ -50,7 +50,7 @@ public class ParkState : ICarState
             // Sprawdzamy czy k¹t jest bardzo blisko zera (idealnie prosto z drog¹)
             if (currentAngle >= -2f || currentAngle > 0f)
             {
-
+                parkingPhase = 2;   // Przechodzimy do nastêpnej fazy parkowania, gdy samochód osi¹gnie k¹t bliski 0 stopni, co oznacza, ¿e jest prawie prosto wzglêdem drogi. W tej fazie mo¿na dodaæ kolejn¹ logikê, np. kontynuowanie jazdy do przodu, skrêt w lewo itp.
             }
         }
     }

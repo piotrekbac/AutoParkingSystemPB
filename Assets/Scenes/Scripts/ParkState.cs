@@ -32,6 +32,7 @@ public class ParkState : ICarState
         if (parkingPhase == -1)
         {
             Debug.Log("FSM: Zatrzymujê auto przed manewrem parkowania...");      // Wypisujemy komunikat do konsoli, informuj¹cy o zatrzymaniu samochodu przed manewrem parkowania, co oznacza, ¿e samochód jest gotowy do rozpoczêcia manewru parkowania i teraz mo¿na dodaæ logikê, która bêdzie wykonywana podczas tej fazy, np. ustawienie odpowiednich parametrów, przygotowanie samochodu itp.
+            parkingPhase = -1;   // Ustawiamy fazê parkowania na -1, co oznacza, ¿e samochód jest w fazie przygotowania do parkowania. W tej fazie mo¿na dodaæ logikê, która bêdzie wykonywana, np. ustawienie odpowiednich parametrów, przygotowanie samochodu itp. Na razie jest to tylko informacja o zatrzymaniu samochodu przed manewrem parkowania, ale mo¿na j¹ rozbudowaæ w zale¿noœci od potrzeb i prefer
         }
 
 

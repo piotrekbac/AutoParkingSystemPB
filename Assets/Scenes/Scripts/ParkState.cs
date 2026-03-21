@@ -42,7 +42,7 @@ public class ParkState : ICarState
             if (timer > 1.5f)
             {
                 parkingPhase = 0;   // Przechodzimy do nastêpnej fazy parkowania, gdy timer przekroczy 1.5 sekundy, co oznacza, ¿e samochód jest ju¿ odpowiednio zatrzymany i gotowy do rozpoczêcia manewru parkowania. W tej fazie mo¿na dodaæ kolejn¹ logikê, np. poruszanie siê do ty³u, skrêt itp.
-
+                Debug.Log("FSM: Auto jest ju¿ zatrzymane. Zaczynam manewr parkowania!");      // Wypisujemy komunikat do konsoli, informuj¹cy o zakoñczeniu fazy pe³nego zatrzymania i rozpoczêciu manewru parkowania, co oznacza, ¿e samochód jest ju¿ odpowiednio zatrzymany i got
             }
         }
 

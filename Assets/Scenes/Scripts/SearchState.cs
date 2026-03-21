@@ -5,53 +5,55 @@ using UnityEngine;
 public class SearchState : ICarState
 {
     private CarSensors sensors;
+
     private bool isMeasuringGap = false;
     private Vector3 gapStartPosition;
     private float requiredGapWidth = 3.0f;
     private bool spotFound = false;
     private bool hasPassedFirstObstacle = false;
 
-    // Dynamiczna pozycja koñca luki (zderzak przedniego auta)
+    // NOWOŒÆ: Zmienna zapamiêtuj¹ca, gdzie dok³adnie jest przednie auto
     private Vector3 gapEndPosition;
 
     public void Enter(CarController car)
     {
-        Debug.Log("FSM: [DYNAMICZNY] Szukam miejsca parkingowego...");
+        Debug.Log("FSM: Rozpoczynam poszukiwanie miejsca...");
         sensors = car.GetComponent<CarSensors>();
     }
 
     public void UpdateState(CarController car)
     {
+        // Je¿eli ju¿ znaleŸliœmy miejsce, pozycjonujemy siê DO PRZODU
         if (spotFound)
         {
-            // P-CONTROLLER DLA ZATRZYMANIA:
-            // Musimy podjechaæ do przodu tak, by ty³ naszego auta min¹³ krawêdŸ przedniego auta.
-            // D³ugoœæ naszego auta to ok. 4.5m, wiêc podje¿d¿amy na z góry wyliczon¹ odleg³oœæ od pocz¹tku luki.
-            float targetDriveDistance = requiredGapWidth + 2.0f; // Szerokoœæ luki + zapas na zrównanie siê aut
-            float currentDistance = Vector3.Distance(gapStartPosition, car.transform.position);
+            // KLUCZOWA POPRAWKA MATEMATYCZNA:
+            // Mierzymy dystans od KOÑCA luki (czyli od momentu, gdy laser uderzy³ w przednie auto)
+            float distanceDrivenPastEnd = Vector3.Distance(gapEndPosition, car.transform.position);
 
-            float distanceLeft = targetDriveDistance - currentDistance;
+            // Chcemy odjechaæ 2.5 metra ZA przedni murek, ¿eby zderzaki aut siê "zrówna³y"
+            float distanceLeft = 2.5f - distanceDrivenPastEnd;
 
-            if (distanceLeft > 0.1f)
+            // P-Controller: P³ynne zwalnianie im bli¿ej celu
+            if (distanceLeft > 0.05f)
             {
-                // P-Controller: Im bli¿ej celu, tym mniejszy gaz (Zwalniamy p³ynnie, nie jedziemy "na sztywno")
-                car.verticalInput = Mathf.Clamp(distanceLeft * 0.2f, 0.1f, 0.3f);
+                car.verticalInput = Mathf.Clamp(distanceLeft * 0.5f, 0.1f, 0.3f);
                 car.horizontalInput = 0f;
-                car.breakInput = 0f;
+                car.brakeInput = 0f;
             }
             else
             {
-                // Idealna pozycja startowa osi¹gniêta!
-                car.breakInput = 1f;
+                // Jesteœmy idealnie wyjechani do przodu! Zatrzymujemy siê!
+                car.brakeInput = 1f;
                 car.verticalInput = 0f;
                 car.ChangeState(new ParkState());
             }
             return;
         }
 
+        // Faza Szukania
         car.verticalInput = 0.3f;
         car.horizontalInput = 0f;
-        car.breakInput = 0f;
+        car.brakeInput = 0f;
 
         if (sensors != null)
         {
@@ -61,34 +63,35 @@ public class SearchState : ICarState
 
                 if (isMeasuringGap)
                 {
-                    // W³aœnie dojechaliœmy do drugiego auta! (Koniec luki)
+                    // W£AŒNIE ZNALELIŒMY DRUGIE AUTO! (Koniec luki)
                     gapEndPosition = car.transform.position;
                     float currentGapWidth = Vector3.Distance(gapStartPosition, gapEndPosition);
 
                     if (currentGapWidth >= requiredGapWidth)
                     {
-                        // WYBÓR IDEALNEGO PUNKTU (Œrodek luki w przesuniêciu o wymiar auta)
+                        // Zapisujemy idealny œrodek luki, by ParkState móg³ tam precyzyjnie dojechaæ
                         car.targetParkingSpot = (gapStartPosition + gapEndPosition) / 2f;
-                        car.targetParkingSpot += car.transform.right * -2f; // Wsuwamy punkt docelowy "w g³¹b" luki
 
-                        Debug.Log($"FSM: ZNALEZIONO LUKÊ! Szerokoœæ: {currentGapWidth:F2}m. Wyliczono œrodek!");
+                        Debug.Log($"FSM: SUKCES! Znaleziono lukê (Szerokoœæ: {currentGapWidth:F2}m). Odje¿d¿am do przodu...");
                         spotFound = true;
                     }
                     else
                     {
-                        Debug.Log("FSM: Luka za ma³a, szukam dalej...");
+                        Debug.Log("FSM: Luka by³a za ma³a! Ignoruje i szukam dalej...");
                     }
+
                     isMeasuringGap = false;
                 }
             }
             else
             {
-                if (hasPassedFirstObstacle)
+                if (hasPassedFirstObstacle == true)
                 {
                     if (!isMeasuringGap)
                     {
                         isMeasuringGap = true;
                         gapStartPosition = car.transform.position;
+                        Debug.Log("FSM: Zauwa¿ono pocz¹tek luki! Rozpoczynam pomiar...");
                     }
                 }
             }
@@ -97,6 +100,6 @@ public class SearchState : ICarState
 
     public void Exit(CarController car)
     {
-        Debug.Log("FSM: Pozycjonowanie zakoñczone, oddajê stery do ParkState.");
+        Debug.Log("FSM: Zakoñczy³em poszukiwanie miejsca.");
     }
 }

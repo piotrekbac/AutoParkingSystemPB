@@ -81,6 +81,10 @@ public class SearchState : ICarState
             // odpowiednie miejsce do zaparkowania.
             if (sensors.isObstacleDetected)
             {
+                // Ustawiamy flagê hasPassedFirstObstacle na true, co oznacza, ¿e samochód min¹³ ju¿ pierwsz¹ przeszkodê
+                // (np. pierwszy samochód na parkingu) podczas poszukiwania miejsca parkingowego.
+                hasPassedFirstObstacle = true;    
+
                 // Widzimy œcianê/inne auto 
                 if (isMeasuringGap)
                 {

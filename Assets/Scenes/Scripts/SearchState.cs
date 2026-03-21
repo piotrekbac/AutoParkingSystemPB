@@ -128,7 +128,13 @@ public class SearchState : ICarState
                     }
                 }
             }
-        }    
+        }
+
+        // Obs³uga przypadku, gdy komponent CarSensors jest null. W tym przypadku, jeœli nie uda³o siê pobraæ komponentu CarSensors, to mo¿emy wyœwietliæ komunikat o b³êdzie lub podj¹æ inne odpowiednie dzia³ania, np. zatrzymaæ samochód, itp. W tym przypadku, jeœli nie uda³o siê pobraæ komponentu CarSensors, to po prostu nic nie robimy, poniewa¿ nie mamy informacji o wykrytych przeszkodach i odleg³oœci do nich, które s¹ potrzebne do podejmowania decyzji dotycz¹cych poruszania siê samochodu podczas poszukiwania miejsca parkingowego.
+        else
+        {
+
+        }
     }
 
     // Implementacja metody Exit z interfejsu ICarState. Ta metoda jest wywo³ywana, gdy samochód opuszcza stan poszukiwania miejsca parkingowego.

@@ -38,12 +38,12 @@ public class SearchState : ICarState
             {
                 car.verticalInput = Mathf.Clamp(distanceLeft * 0.5f, 0.1f, 0.3f);
                 car.horizontalInput = 0f;
-                car.brakeInput = 0f;
+                car.breakInput = 0f;
             }
             else
             {
                 // Jesteœmy idealnie wyjechani do przodu! Zatrzymujemy siê!
-                car.brakeInput = 1f;
+                car.breakInput = 1f;
                 car.verticalInput = 0f;
                 car.ChangeState(new ParkState());
             }
@@ -53,7 +53,7 @@ public class SearchState : ICarState
         // Faza Szukania
         car.verticalInput = 0.3f;
         car.horizontalInput = 0f;
-        car.brakeInput = 0f;
+        car.breakInput = 0f;
 
         if (sensors != null)
         {

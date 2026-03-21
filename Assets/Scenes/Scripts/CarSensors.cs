@@ -54,7 +54,7 @@ public class CarSensors : MonoBehaviour
             // Jeœli odleg³oœæ do wykrytej przeszkody jest mniejsza lub równa 1.0f, nie aktualizujê informacji o wykryciu przeszkody ani odleg³oœci, poniewa¿ uznajê, ¿e przeszkoda jest zbyt blisko, aby by³a istotna dla dalszej jazdy. Rysujê równie¿ ¿ó³ty laser, aby wizualizowaæ wykrycie przeszkody, ale z informacj¹, ¿e jest ona bardzo blisko.
             else
             {
-
+                isObstacleDetected = false;                // Ustawiam isObstacleDetected na false, poniewa¿ przeszkoda jest zbyt blisko, aby by³a istotna dla dalszej jazdy.
             }
         }
 

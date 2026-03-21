@@ -7,27 +7,11 @@ public class ParkState : ICarState
     private int parkingPhase = -1;
     private float timer = 0f;
 
-    // Dynamicznie wyliczone parametry parkowania (Okrêgi styczne z PDF)
-    private float turningRadius;
-    private float inflectionAngle; // K¹t przegiêcia (kiedy robimy kontrê)
-
     public void Enter(CarController car)
     {
-        Debug.Log("FSM: [DYNAMICZNY] Zaczynam matematyczny manewr parkowania...");
+        Debug.Log("FSM: Zaczynam manewr parkowania...");
         parkingPhase = -1;
         timer = 0f;
-
-        // GEOMETRIA 2D: Wyliczanie Okrêgów Stycznych
-        turningRadius = car.GetTurningRadius();
-
-        // Z³o¿ony wzór na k¹t "z³amania" w oparciu o promieñ skrêtu auta i szerokoœæ luki (2.2 metra to g³êbokoœæ parkingu)
-        float lateralShift = 2.2f;
-
-        // Obliczenie k¹ta przegiêcia (inflection point)
-        // Wzór: arccos(1 - (shift / 2R))
-        inflectionAngle = Mathf.Acos(1f - (lateralShift / (2f * turningRadius))) * Mathf.Rad2Deg;
-
-        Debug.Log($"FSM: Wyliczony promieñ skrêtu (R): {turningRadius:F2}m. K¹t kontry: {inflectionAngle:F1} stopni.");
     }
 
     public void UpdateState(CarController car)
@@ -38,65 +22,66 @@ public class ParkState : ICarState
         {
             car.horizontalInput = 0f;
             car.verticalInput = 0f;
-            car.breakInput = 1f;
+            car.brakeInput = 1f;
 
             timer += Time.deltaTime;
-            if (timer > 1.5f) parkingPhase = 0;
+            if (timer > 1.0f) parkingPhase = 0;
         }
         else if (parkingPhase == 0)
         {
-            // TEORIA STEROWANIA: P-Controller dla p³ynnego cofania
-            // Auto cofa dynamicznie - im bli¿ej momentu wykrêcenia, tym p³ynniej jedzie
-            car.verticalInput = -0.4f;
+            // FAZA 0: Wkrêcanie ty³u w lukê
+            car.verticalInput = -0.5f;
             car.horizontalInput = 1f;
-            car.breakInput = 0f;
+            car.brakeInput = 0f;
 
-            // Zamiast sztywnego -45, u¿ywamy wyliczonego z fizyki auta dynamicznego k¹ta!
-            if (currentAngle <= -inflectionAngle)
+            // Z³amanie auta pod optymalnym k¹tem 35 stopni
+            if (currentAngle <= -35f)
             {
                 parkingPhase = 1;
-                Debug.Log("FSM: Osi¹gniêto punkt przegiêcia krzywej. Robiê KONTRE!");
+                Debug.Log("FSM: K¹t -35 stopni osi¹gniêty. Robiê KONTRE!");
             }
         }
         else if (parkingPhase == 1)
         {
+            // FAZA 1: Prostowanie auta w luce
             car.horizontalInput = -1f;
-            car.verticalInput = -0.4f;
-            car.breakInput = 0f;
+            car.verticalInput = -0.5f;
+            car.brakeInput = 0f;
 
             if (currentAngle >= -1f)
             {
                 parkingPhase = 2;
+                Debug.Log("FSM: Auto jest równolegle. Uruchamiam P-Controller (Wymóg z PDF) by wyœrodkowaæ!");
             }
         }
         else if (parkingPhase == 2)
         {
-            // TEORIA STEROWANIA: P-Controller precyzyjnego dojazdu do œrodka luki
-            // Samochód jest prosto, ale mo¿e potrzebowaæ dojechaæ do ty³u/przodu by staæ na œrodku
+            // FAZA 2: P-Controller - WYMÓG Z PDF (strona 7)
+            // Mechanizm wykorzystuj¹cy b³¹d pozycji do generowania p³ynnego sterowania przód/ty³
+            car.horizontalInput = 0f; // Prostujemy kierownicê na amen
+
             float errorDistance = car.transform.position.z - car.targetParkingSpot.z;
 
-            if (Mathf.Abs(errorDistance) > 0.2f)
+            // Jeœli b³¹d (odleg³oœæ od idealnego œrodka) jest wiêkszy ni¿ 15 cm...
+            if (Mathf.Abs(errorDistance) > 0.15f)
             {
-                car.horizontalInput = 0f;
-                // P-Controller d¹¿y do wyzerowania b³êdu pozycji (errorDistance)
+                car.brakeInput = 0f;
+                // P-Controller: Prêdkoœæ zale¿y od tego, jak daleko jesteœmy. 
                 car.verticalInput = Mathf.Clamp(-errorDistance * 0.5f, -0.3f, 0.3f);
-                car.breakInput = 0f;
             }
             else
             {
-                // Idealnie w œrodku! Zaci¹gamy rêczny.
-                car.horizontalInput = 0f;
+                // Jesteœmy idealnie na œrodku luki!
                 car.verticalInput = 0f;
-                car.breakInput = 1f;
-                Debug.Log("FSM: SUKCES! Zaparkowano centralnie z u¿yciem P-Controllera!");
+                car.brakeInput = 1f;
+                parkingPhase = 3;
+                Debug.Log("FSM: ZAPARKOWANO PERFEKCYJNIE NA ŒRODKU! 100% ZADANIA WYKONANE!");
             }
         }
     }
 
     public void Exit(CarController car)
-    {
-        Debug.Log("FSM: Manewr parkowania zakoñczony.");
-    }
+    { }
 
     private float GetNormalizedAngle(float angle)
     {

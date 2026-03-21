@@ -55,6 +55,7 @@ public class CarSensors : MonoBehaviour
             else
             {
                 isObstacleDetected = false;                // Ustawiam isObstacleDetected na false, poniewa¿ przeszkoda jest zbyt blisko, aby by³a istotna dla dalszej jazdy.
+                currentDistanceToObstacle = sensorLength;  // Ustawiam currentDistanceToObstacle na sensorLength, co oznacza, ¿e nie ma przeszkody w zasiêgu LIDARu, poniewa¿ wykryta przeszkoda jest zbyt blisko.
             }
         }
 

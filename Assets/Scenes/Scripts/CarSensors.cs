@@ -11,8 +11,8 @@ public class CarSensors : MonoBehaviour
     public float sensorLength = 10f;        // D³ugoœæ promienia LIDARu, który bêdzie u¿ywany do wykrywania przeszkód.
     public Transform rightSensorPosition;   // Referencja do Transformu, który bêdzie okreœla³ pozycjê prawego sensora LIDARu.
 
-    public float currentDistanceToObstacle;   // Zmienna do przechowywania aktualnej odleg³oœci do przeszkody, która bêdzie aktualizowana na podstawie wyników wykrywania LIDARu.
-    public bool isObstacleDetected;           // Zmienna do przechowywania informacji o tym, czy przeszkoda zosta³a wykryta, która bêdzie aktualizowana na podstawie wyników wykrywania LIDARu.
+    public float currentDistanceToObstacle = 0f;        // Zmienna do przechowywania aktualnej odleg³oœci do przeszkody, która bêdzie aktualizowana na podstawie wyników wykrywania LIDARu.
+    public bool isObstacleDetected = false;             // Zmienna do przechowywania informacji o tym, czy przeszkoda zosta³a wykryta, która bêdzie aktualizowana na podstawie wyników wykrywania LIDARu.
 
 
     // Metoda Update - jest wywo³ywana raz na klatkê i jest odpowiedzialna za aktualizowanie stanu sensorów LIDARu poprzez wywo³anie metody ScanEnvironment, która skanuje otoczenie i aktualizuje informacje o wykrytych przeszkodach.

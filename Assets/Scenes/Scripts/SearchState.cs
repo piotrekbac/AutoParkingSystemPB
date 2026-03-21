@@ -41,7 +41,7 @@ public class SearchState : ICarState
         if (spotFound)
         {
             // Obliczamy odleg³oœæ, jak¹ samochód przejecha³ od pozycji pocz¹tkowej (gapStartPosition) do aktualnej pozycji samochodu (car.transform.position) za pomoc¹ funkcji Vector3.Distance i przypisujemy j¹ do zmiennej distanceDrivenPastSpot.
-            float distanceDrivenPastSpot = Vector3.Distance(gapStartPosition, car.transform.position);  
+            float distanceDrivenPastSpot = Vector3.Distance(gapStartPosition, car.transform.position) - requiredGapWidth;  
 
             // Podje¿d¿amy dodatkowe 2.5 metra do przodu, ¿eby zrównaæ siê z pojazdem, z przodu 
             if (distanceDrivenPastSpot < 2.5f)

@@ -32,8 +32,8 @@ public class SearchState : ICarState
         {
             float distanceDrivenPastSpot = Vector3.Distance(gapStartPosition, car.transform.position) - requiredGapWidth;
 
-            // Podje¿d¿amy dodatkowe 2.5 metra do przodu
-            if (distanceDrivenPastSpot < 2.5f)
+            // Podje¿d¿amy dodatkowe 5 metrów do przodu
+            if (distanceDrivenPastSpot < 0f)
             {
                 car.verticalInput = 0.2f;
                 car.horizontalInput = 0f;

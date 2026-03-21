@@ -191,4 +191,8 @@ public class CarController : MonoBehaviour
         // ten obiekt (samochód), aby umo¿liwiæ inicjalizacjê nowego stanu i przygotowanie samochodu do dzia³ania w tym stanie.
         currentState.Enter(this);
     }
+
+    [HideInInspector] public Vector3 targetParkingSpot;     // Tu zapiszemy idealny œrodek linii
+
+    
 }

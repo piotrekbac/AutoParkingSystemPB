@@ -41,7 +41,7 @@ public class ParkState : ICarState
             // // Warunek logiczny - jeœli timer przekroczy 1.5 sekundy, to mo¿emy przejœæ do nastêpnej fazy parkowania, np. rozpocz¹æ poruszanie siê do ty³u, skrêt itp. Na razie jest to tylko przyk³ad, ale mo¿na go dostosowaæ w zale¿noœci od potrzeb i preferencji dotycz¹cych manewru parkowania.
             if (timer > 1.5f)
             {
-
+                parkingPhase = 0;   // Przechodzimy do nastêpnej fazy parkowania, gdy timer przekroczy 1.5 sekundy, co oznacza, ¿e samochód jest ju¿ odpowiednio zatrzymany i gotowy do rozpoczêcia manewru parkowania. W tej fazie mo¿na dodaæ kolejn¹ logikê, np. poruszanie siê do ty³u, skrêt itp.
 
             }
         }

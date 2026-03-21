@@ -31,6 +31,8 @@ public class CarSensors : MonoBehaviour
 
         Vector3 direction = transform.right;   // Ustalam kierunek promienia LIDARu (kierunek prawy samochodu).
 
+        direction.y = 0;                       // Ustawiam sk³adow¹ y kierunku na 0, aby promieñ LIDARu by³ poziomy i nie by³ skierowany w górê lub w dó³.
+
         RaycastHit hit;                        // Tworzê zmienn¹ typu RaycastHit, która bêdzie przechowywaæ informacje o trafieniu promienia LIDARu w przeszkodê.
 
 

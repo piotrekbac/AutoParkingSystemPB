@@ -37,6 +37,13 @@ public class ParkState : ICarState
             car.breakInput = 1f;          // Ustawiamy wartoœæ wejœcia hamulca na 1, co oznacza, ¿e hamulec jest aktywowany podczas tej fazy parkowania. Samochód bêdzie zatrzymany i nie bêdzie siê porusza³, co jest odpowiednie dla fazy pe³nego zatrzymania
 
             timer += Time.deltaTime;      // Aktualizujemy timer, dodaj¹c czas, który up³yn¹³ od ostatniej klatki. Mo¿na go wykorzystaæ do implementacji opóŸnieñ lub warunków czasowych dla tego stanu parkowania.
+
+            // // Warunek logiczny - jeœli timer przekroczy 1.5 sekundy, to mo¿emy przejœæ do nastêpnej fazy parkowania, np. rozpocz¹æ poruszanie siê do ty³u, skrêt itp. Na razie jest to tylko przyk³ad, ale mo¿na go dostosowaæ w zale¿noœci od potrzeb i preferencji dotycz¹cych manewru parkowania.
+            if (timer > 1.5f)
+            {
+
+
+            }
         }
 
 

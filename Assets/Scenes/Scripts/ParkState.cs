@@ -25,56 +25,70 @@ public class ParkState : ICarState
             car.brakeInput = 1f;
 
             timer += Time.deltaTime;
-            if (timer > 1.0f) parkingPhase = 0;
+            if (timer > 1.0f)
+            {
+                parkingPhase = 0;
+                timer = 0f; // Resetujemy timer dla nowej fazy Twojego pomys³u!
+                Debug.Log("FSM: Zaczynam cofaæ na wprost (Faza dodana przez Piotra!)...");
+            }
         }
         else if (parkingPhase == 0)
         {
-            // FAZA 0: Wkrêcanie ty³u w lukê
-            car.verticalInput = -0.5f;
-            car.horizontalInput = 1f;
+            // FAZA 0 (TWÓJ POMYS£): Cofamy na prostych ko³ach, ¿eby schowaæ zderzak!
+            car.verticalInput = -0.4f;       // Powolne cofanie
+            car.horizontalInput = 0f;        // KIEROWNICA PROSTO!
             car.brakeInput = 0f;
 
-            // Z³amanie auta pod optymalnym k¹tem 35 stopni
-            if (currentAngle <= -35f)
+            timer += Time.deltaTime;
+            // Cofamy prosto przez 1 sekundê (to wystarczy, by min¹æ róg auta z przodu)
+            if (timer > 1.0f)
             {
                 parkingPhase = 1;
-                Debug.Log("FSM: K¹t -35 stopni osi¹gniêty. Robiê KONTRE!");
+                Debug.Log("FSM: Ty³ bezpieczny! £amiê auto w prawo.");
             }
         }
         else if (parkingPhase == 1)
         {
-            // FAZA 1: Prostowanie auta w luce
-            car.horizontalInput = -1f;
+            // FAZA 1: Wkrêcanie ty³u w lukê (skrêt w prawo)
+            car.verticalInput = -0.5f;
+            car.horizontalInput = 1f;        // MAX W PRAWO
+            car.brakeInput = 0f;
+
+            if (currentAngle <= -35f)
+            {
+                parkingPhase = 2;
+                Debug.Log("FSM: K¹t -35 stopni osi¹gniêty. Robiê KONTRE w lewo!");
+            }
+        }
+        else if (parkingPhase == 2)
+        {
+            // FAZA 2: Prostowanie auta w luce
+            car.horizontalInput = -1f;      // MAX W LEWO
             car.verticalInput = -0.5f;
             car.brakeInput = 0f;
 
             if (currentAngle >= -1f)
             {
-                parkingPhase = 2;
-                Debug.Log("FSM: Auto jest równolegle. Uruchamiam P-Controller (Wymóg z PDF) by wyœrodkowaæ!");
+                parkingPhase = 3;
+                Debug.Log("FSM: Auto jest równolegle. Uruchamiam P-Controller by wyœrodkowaæ!");
             }
         }
-        else if (parkingPhase == 2)
+        else if (parkingPhase == 3)
         {
-            // FAZA 2: P-Controller - WYMÓG Z PDF (strona 7)
-            // Mechanizm wykorzystuj¹cy b³¹d pozycji do generowania p³ynnego sterowania przód/ty³
+            // FAZA 3: P-Controller - WYMÓG Z PDF
             car.horizontalInput = 0f; // Prostujemy kierownicê na amen
 
             float errorDistance = car.transform.position.z - car.targetParkingSpot.z;
 
-            // Jeœli b³¹d (odleg³oœæ od idealnego œrodka) jest wiêkszy ni¿ 15 cm...
             if (Mathf.Abs(errorDistance) > 0.15f)
             {
                 car.brakeInput = 0f;
-                // P-Controller: Prêdkoœæ zale¿y od tego, jak daleko jesteœmy. 
                 car.verticalInput = Mathf.Clamp(-errorDistance * 0.5f, -0.3f, 0.3f);
             }
             else
             {
-                // Jesteœmy idealnie na œrodku luki!
                 car.verticalInput = 0f;
                 car.brakeInput = 1f;
-                parkingPhase = 3;
                 Debug.Log("FSM: ZAPARKOWANO PERFEKCYJNIE NA ŒRODKU! 100% ZADANIA WYKONANE!");
             }
         }

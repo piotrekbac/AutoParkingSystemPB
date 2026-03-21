@@ -1,204 +1,114 @@
-using System;
 using UnityEngine;
 
 // Piotr Bacior 15 722 - WSEI Kraków - Informatyka stosowana
 
 public class CarController : MonoBehaviour
 {
-    /* 
-     Tworzê skrypt, który bêdzie odpowiada³ za sterowanie samochodem.
-     Bêdzie on wykorzystywa³ komponent Rigidbody do poruszania siê
-     samochodu oraz Transform do ustawiania œrodka masy. 
-    */
+    [Header("Referencje - Wheel Collidery (Fizyka)")]
+    public WheelCollider frontLeftCollider;
+    public WheelCollider frontRightCollider;
+    public WheelCollider rearLeftCollider;
+    public WheelCollider rearRightCollider; [Header("Referencje - Modele 3D kó³ (Wygl¹d)")]
+    public Transform frontLeftVisual;
+    public Transform frontRightVisual;
+    public Transform rearLeftVisual;
+    public Transform rearRightVisual;
 
-    // Deklarujê nag³ówek dla sekcji referencji do komponentów, które bêd¹ u¿ywane w skrypcie.
-    [Header("Referencje - Wheel Colidery (Fizyka kó³)")]
+    [Header("Ustawienia Pojazdu")]
+    public Transform centerOfMass;
+    public float motorForce = 1500f;
+    public float maxSteerAngle = 35f;
+    public float wheelbase = 2.7f;
+    public float trackWidth = 1.8f;
 
-    public WheelCollider frontLeftCollider;     // Referencja do Wheel Collidera przedniego lewego ko³a.
-    public WheelCollider frontRightCollider;    // Referencja do Wheel Collidera przedniego prawego ko³a.
-    public WheelCollider rearLeftCollider;      // Referencja do Wheel Collidera tylnego lewego ko³a.
-    public WheelCollider rearRightCollider;     // Referencja do Wheel Collidera tylnego prawego ko³a.
+    // --- ZMIENNE DO STEROWANIA PRZEZ FSM ---
+    public float verticalInput;
+    public float horizontalInput;
+    public float brakeInput;
+    [HideInInspector] public Vector3 targetParkingSpot; // Zmienna przechowuj¹ca œrodek luki
 
-
-    // Deklarujê nag³ówek dla sekcji referencji do modeli 3D kó³, które bêd¹ u¿ywane do wizualizacji kó³ samochodu.
-    [Header("Referencje - Modele 3D kó³ (Wizualizacja kó³)")]
-
-    public Transform frontLeftVisual;     // Referencja do Transformu modelu 3D przedniego lewego ko³a (do wizualizacji).
-    public Transform frontRightVisual;    // Referencja do Transformu modelu 3D przedniego prawego ko³a (do wizualizacji).
-    public Transform rearLeftVisual;      // Referencja do Transformu modelu 3D tylnego lewego ko³a (do wizualizacji).
-    public Transform rearRightVisual;     // Referencja do Transformu modelu 3D tylnego prawego ko³a (do wizualizacji).
-
-    // Deklarujê nag³ówek dla sekcji ustawieñ pojazdu, które bêd¹ u¿ywane do konfiguracji fizyki samochodu.
-    [Header("Ustawienia pojazdu")]
-
-    public Transform centerOfMass;      // Referencja do Transformu, który bêdzie okreœla³ œrodek masy samochodu.
-    public float motorForce = 1500f;    // Si³a silnika, która bêdzie u¿ywana do napêdzania samochodu.
-    public float maxSteerAngle = 35f;   // Maksymalny k¹t skrêtu kó³, który bêdzie u¿ywany do sterowania samochodem.
-    public float wheelbase = 2.7f;      // Rozstaw osi samochodu, który bêdzie u¿ywany do obliczania k¹tów skrêtu kó³.
-    public float trackWidth = 1.8f;     // Szerokoœæ toru jazdy samochodu, która bêdzie u¿ywana do obliczania k¹tów skrêtu kó³.
-
-    // Zmienne do sterowania FSM
-    public float verticalInput;    // Zmienna do przechowywania wartoœci wejœcia pionowego (przyspieszenie/hamowanie).
-    public float horizontalInput;  // Zmienna do przechowywania wartoœci wejœcia poziomego (skrêt kó³).
-    public float breakInput;       // Zmienna do przechowywania wartoœci wejœcia hamowania (naciskanie hamulca).
-
-
-    // Prywatna zmienna do przechowywania referencji do komponentu Rigidbody, który bêdzie u¿ywany do poruszania siê samochodu.
     private Rigidbody rb;
+    private ICarState currentState;
 
-    // Zmienna do przechowywania aktualnego stanu samochodu w ramach FSM (Finite State Machine).
-    private ICarState currentState;    
-
-    // Metoda Start jest wywo³ywana na pocz¹tku gry, przed pierwsz¹ klatk¹. 
     void Start()
     {
-        // Pobieram komponent Rigidbody, który jest przypisany do tego obiektu (samochodu).
         rb = GetComponent<Rigidbody>();
-
-        // Je¿eli centerOfMass jest przypisany, to ustawiam œrodek masy samochodu na podstawie jego pozycji.
-        if (centerOfMass != null)
-        {
-            rb.centerOfMass = centerOfMass.localPosition;   // Ustawiam œrodek masy
-        }
-
-        // Ustawiam pocz¹tkowy stan samochodu na SearchState, co oznacza, ¿e samochód rozpocznie poszukiwanie miejsca parkingowego na pocz¹tku gry.
-        ChangeState(new SearchState());   
+        if (centerOfMass != null) rb.centerOfMass = centerOfMass.localPosition;
+        ChangeState(new SearchState());
     }
 
-    // Metoda Update - jest wywo³ywana raz na klatkê i jest odpowiedzialna za pobieranie wejœcia
-    // od gracza oraz aktualizacjê pozycji i rotacji modeli 3D kó³, aby odpowiada³y aktualnemu stanowi fizyki kó³.
     void Update()
     {
-        // Warunek logiczny - sprawdzam, czy currentState nie jest null, co oznacza, ¿e samochód znajduje siê w jakimœ stanie. 
-        if (currentState != null)
-        {
-            // Je¿eli currentState nie jest null, to wywo³ujê metodê UpdateState na aktualnym stanie, przekazuj¹c jako argument ten obiekt (samochód), aby umo¿liwiæ aktualizacjê stanu samochodu na podstawie logiki specyficznej dla tego stanu.
-            currentState.UpdateState(this);   
-        }
-
-        UpdateWheelPoses();    // Aktualizujê pozycje i rotacje modeli 3D kó³, aby odpowiada³y aktualnemu stanowi fizyki kó³.
+        if (currentState != null) currentState.UpdateState(this);
+        UpdateWheelPoses();
     }
 
-    // Metoda FixedUpdate - jest wywo³ywana w sta³ych odstêpach czasu i jest odpowiedzialna za aktualizacjê fizyki
-    // samochodu, w tym obliczanie k¹tów skrêtu kó³ na podstawie zasady Ackermana oraz stosowanie si³y silnika do kó³
-    // tylnych, aby poruszaæ samochód do przodu lub do ty³u.
     void FixedUpdate()
     {
-        HandlerMotor();                 // Stosujê si³ê silnika do kó³ tylnych na podstawie wejœcia pionowego, aby poruszaæ samochód do przodu lub do ty³u.
-        HandlerSteeringAckerman();      // Obliczam k¹ty skrêtu kó³ przednich na podstawie zasady Ackermana, aby zapewniæ poprawn¹ stabilnoœæ pojazdu podczas zakrêtów.
+        HandleMotor();
+        HandleSteeringAckermann();
     }
 
-    // Metoda HandlerMotor - metoda odpowiedzialna za stosowanie si³y silnika do kó³ tylnych na podstawie wejœcia pionowego, aby poruszaæ samochód do przodu lub do ty³u.
-    private void HandlerMotor()
+    private void HandleMotor()
     {
-        // Gaz (napêd na ty³)
-        rearLeftCollider.motorTorque = verticalInput * motorForce;     // Stosujê si³ê silnika do tylnego lewego ko³a na podstawie wejœcia pionowego i ustawionej si³y silnika.
-        rearRightCollider.motorTorque = verticalInput * motorForce;    // Stosujê si³ê silnika do tylnego prawego ko³a na podstawie wejœcia pionowego i ustawionej si³y silnika.
+        rearLeftCollider.motorTorque = verticalInput * motorForce;
+        rearRightCollider.motorTorque = verticalInput * motorForce;
 
-        // Hamulce 
-        float currentBrakeForce = breakInput * 3000f;          // Obliczam aktualn¹ si³ê hamowania - 3000 to mocne klocki hamulcowe
-
-        frontLeftCollider.brakeTorque = currentBrakeForce;     // Stosujê si³ê hamowania do przedniego lewego ko³a na podstawie obliczonej si³y hamowania.
-        frontRightCollider.brakeTorque = currentBrakeForce;    // Stosujê si³ê hamowania do przedniego prawego ko³a na podstawie obliczonej si³y hamowania.
-        rearLeftCollider.brakeTorque = currentBrakeForce;      // Stosujê si³ê hamowania do tylnego lewego ko³a na podstawie obliczonej si³y hamowania.
-        rearRightCollider.brakeTorque = currentBrakeForce;     // Stosujê si³ê hamowania do tylnego prawego ko³a na podstawie obliczonej si³y hamowania.
+        float currentBrakeForce = brakeInput * 3000f;
+        frontLeftCollider.brakeTorque = currentBrakeForce;
+        frontRightCollider.brakeTorque = currentBrakeForce;
+        rearLeftCollider.brakeTorque = currentBrakeForce;
+        rearRightCollider.brakeTorque = currentBrakeForce;
     }
 
-    // Metoda HandlerSteeringAckerman - metoda odpowiedzialna za obliczanie k¹tów skrêtu kó³ przednich na podstawie zasady
-    // Ackermana, która zapewnia, ¿e ko³a skrêcaj¹ w odpowiedni sposób podczas zakrêtów, aby unikn¹æ poœlizgu i poprawiæ stabilnoœæ pojazdu.
-    private void HandlerSteeringAckerman()
+    private void HandleSteeringAckermann()
     {
-        float steerAngle = horizontalInput * maxSteerAngle;   // Obliczam k¹t skrêtu na podstawie wejœcia poziomego i maksymalnego k¹ta skrêtu.
-
-        // Je¿eli k¹t skrêtu jest wiêkszy ni¿ 0.01f (aby unikn¹æ niepotrzebnych obliczeñ przy bardzo ma³ych wartoœciach), to wykonujê dalsze obliczenia.
-        if (Math.Abs(steerAngle) > 0.01f)
+        float steerAngle = horizontalInput * maxSteerAngle;
+        if (Mathf.Abs(steerAngle) > 0.01f)
         {
-            // Obliczam promieñ skrêtu ze œrodka osi: L / ten(delta)
-            float turnRadius = wheelbase / Mathf.Tan(Mathf.Deg2Rad * steerAngle);   
+            float turnRadius = wheelbase / Mathf.Tan(steerAngle * Mathf.Deg2Rad);
+            float angleInner = Mathf.Atan(wheelbase / (turnRadius - (trackWidth / 2f))) * Mathf.Rad2Deg;
+            float angleOuter = Mathf.Atan(wheelbase / (turnRadius + (trackWidth / 2f))) * Mathf.Rad2Deg;
 
-            // Wzory z pdf - k¹ty wewnêtrzne i zewnêtrzne - zmienione z radianów na stopnie
-            float angleInner = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius - (trackWidth / 2)));   // K¹t skrêtu wewnêtrznego ko³a.
-            float angleOuter = Mathf.Rad2Deg * Mathf.Atan(wheelbase / (turnRadius + (trackWidth / 2)));   // K¹t skrêtu zewnêtrznego ko³a.
-
-
-            // Warunek logiczny - je¿eli k¹t skrêtu jest wiêkszy ni¿ 0, to oznacza, ¿e samochód skrêca w prawo, wiêc ustawiam
-            // k¹t skrêtu wewnêtrznego ko³a na przednim prawym kole, a k¹t skrêtu zewnêtrznego ko³a na przednim lewym kole.
-            // Skrêt w prawo
             if (steerAngle > 0)
             {
-                frontRightCollider.steerAngle = angleInner;   // Ustawiam k¹t skrêtu wewnêtrznego ko³a na przednim prawym kole.
-                frontLeftCollider.steerAngle = angleOuter;    // Ustawiam k¹t skrêtu zewnêtrznego ko³a na przednim lewym kole.
+                frontRightCollider.steerAngle = angleInner;
+                frontLeftCollider.steerAngle = angleOuter;
             }
-
-
-            // W przeciwnym przypadku, je¿eli k¹t skrêtu jest mniejszy ni¿ 0, to oznacza, ¿e samochód skrêca w lewo, wiêc ustawiam
-            // Skrêt w lewo
             else
             {
-                frontLeftCollider.steerAngle = angleInner;   // Ustawiam k¹t skrêtu wewnêtrznego ko³a na przednim lewym kole.
-                frontRightCollider.steerAngle = angleOuter;  // Ustawiam k¹t skrêtu zewnêtrznego ko³a na przednim prawym kole.
+                frontLeftCollider.steerAngle = angleInner;
+                frontRightCollider.steerAngle = angleOuter;
             }
         }
-
-        // W przeciwnym przypadku, je¿eli k¹t skrêtu jest mniejszy lub równy 0.01f, to oznacza, ¿e samochód jedzie prosto, wiêc ustawiam k¹t skrêtu na 0 dla obu przednich kó³.
         else
         {
-            frontLeftCollider.steerAngle = 0;    // Ustawiam k¹t skrêtu na 0 dla przedniego lewego ko³a.
-            frontRightCollider.steerAngle = 0;   // Ustawiam k¹t skrêtu na 0 dla przedniego prawego ko³a.
+            frontLeftCollider.steerAngle = 0;
+            frontRightCollider.steerAngle = 0;
         }
     }
 
-
-    // Metoda UpdateWheelPoses - metoda odpowiedzialna za aktualizacjê pozycji i rotacji modeli 3D kó³ na podstawie pozycji i rotacji Wheel Colliderów, aby zapewniæ poprawn¹ wizualizacjê kó³ podczas jazdy samochodu.
     private void UpdateWheelPoses()
     {
-        UpdateSingleWheel(frontLeftCollider, frontLeftVisual);     // Aktualizujê pozycjê i rotacjê modelu 3D przedniego lewego ko³a.
-        UpdateSingleWheel(frontRightCollider, frontRightVisual);   // Aktualizujê pozycjê i rotacjê modelu 3D przedniego prawego ko³a.
-        UpdateSingleWheel(rearLeftCollider, rearLeftVisual);       // Aktualizujê pozycjê i rotacjê modelu 3D tylnego lewego ko³a.
-        UpdateSingleWheel(rearRightCollider, rearRightVisual);     // Aktualizujê pozycjê i rotacjê modelu 3D tylnego prawego ko³a.
+        UpdateSingleWheel(frontLeftCollider, frontLeftVisual);
+        UpdateSingleWheel(frontRightCollider, frontRightVisual);
+        UpdateSingleWheel(rearLeftCollider, rearLeftVisual);
+        UpdateSingleWheel(rearRightCollider, rearRightVisual);
     }
 
-
-    // Metoda UpdateSingleWheel - metoda pomocnicza, która aktualizuje pozycjê i rotacjê pojedynczego modelu 3D ko³a na podstawie pozycji i rotacji
-    // odpowiadaj¹cego mu Wheel Collidera, aby zapewniæ poprawn¹ wizualizacjê tego ko³a podczas jazdy samochodu.
-    private void UpdateSingleWheel(WheelCollider collider, Transform visual)
+    private void UpdateSingleWheel(WheelCollider col, Transform visual)
     {
-        Vector3 pos;                                    // Zmienna do przechowywania pozycji ko³a.
-        Quaternion rot;                                 // Zmienna do przechowywania rotacji ko³a.
-        collider.GetWorldPose(out pos, out rot);        // Pobieram pozycjê i rotacjê Wheel Collidera.
-        visual.position = pos;                          // Ustawiam pozycjê modelu 3D ko³a na podstawie pozycji Wheel Collidera.
-        visual.rotation = rot;                          // Ustawiam rotacjê modelu 3D ko³a na podstawie rotacji Wheel Collidera.
+        Vector3 pos;
+        Quaternion rot;
+        col.GetWorldPose(out pos, out rot);
+        visual.position = pos;
+        visual.rotation = rot;
     }
 
-    // Metoda ChangeState - metoda odpowiedzialna za zmianê stanu samochodu w ramach FSM (Finite State Machine).
-    // Przyjmuje jako argument nowy stan, do którego samochód ma przejœæ, i aktualizuje aktualny stan samochodu na ten nowy stan.
-    // Ta metoda jest kluczowa dla zarz¹dzania logik¹ stanu samochodu i umo¿liwia p³ynne przechodzenie miêdzy ró¿nymi stanami,
-    // takimi jak poszukiwanie miejsca parkingowego, parkowanie, itp.
     public void ChangeState(ICarState newState)
     {
-        // Warunek logiczny - sprawdzam, czy aktualny stan samochodu (currentState) nie jest null, co oznacza, ¿e samochód znajduje siê w jakimœ stanie. 
-        if (currentState != null)
-        {
-            // Je¿eli currentState nie jest null, to wywo³ujê metodê Exit na aktualnym stanie, przekazuj¹c jako argument
-            // ten obiekt (samochód), aby umo¿liwiæ czyszczenie stanu i przygotowanie samochodu do przejœcia do nowego stanu.
-            currentState.Exit(this);   
-        }
-
-        // Aktualizujê aktualny stan samochodu na nowy stan.
+        if (currentState != null) currentState.Exit(this);
         currentState = newState;
-
-        // Je¿eli nowy stan (currentState) nie jest null, to wywo³ujê metodê Enter na nowym stanie, przekazuj¹c jako argument
-        // ten obiekt (samochód), aby umo¿liwiæ inicjalizacjê nowego stanu i przygotowanie samochodu do dzia³ania w tym stanie.
         currentState.Enter(this);
-    }
-
-    [HideInInspector] public Vector3 targetParkingSpot;     // Tu zapiszemy idealny œrodek linii
-
-    // Funkcja wyliczaj¹ca minimalny promieñ skretu (R) ze wzoru matematycznego zawartego w PDF insrukcji
-    public float GetTurningRadius()
-    {
-        // Obliczam minimalny promieñ skrêtu (R) na podstawie rozstawu osi (wheelbase) i maksymalnego k¹ta skrêtu (maxSteerAngle)
-        // przy u¿yciu wzoru: R = L / tan(delta), gdzie L to rozstaw osi, a delta to maksymalny k¹t skrêtu w radianach.
-        return wheelbase / Mathf.Tan(maxSteerAngle * Mathf.Deg2Rad);
     }
 }

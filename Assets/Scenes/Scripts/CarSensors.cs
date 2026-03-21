@@ -33,6 +33,8 @@ public class CarSensors : MonoBehaviour
 
         direction.y = 0;                       // Ustawiam sk³adow¹ y kierunku na 0, aby promieñ LIDARu by³ poziomy i nie by³ skierowany w górê lub w dó³.
 
+        direction.Normalize();                 // Normalizujê kierunek, aby mieæ jednostkowy wektor kierunku, co jest wa¿ne dla poprawnego dzia³ania funkcji Raycast.
+
         RaycastHit hit;                        // Tworzê zmienn¹ typu RaycastHit, która bêdzie przechowywaæ informacje o trafieniu promienia LIDARu w przeszkodê.
 
 

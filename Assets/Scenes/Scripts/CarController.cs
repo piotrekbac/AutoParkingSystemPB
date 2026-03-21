@@ -197,6 +197,8 @@ public class CarController : MonoBehaviour
     // Funkcja wyliczaj¹ca minimalny promieñ skretu (R) ze wzoru matematycznego zawartego w PDF insrukcji
     public float GetTurningRadius()
     {
-
+        // Obliczam minimalny promieñ skrêtu (R) na podstawie rozstawu osi (wheelbase) i maksymalnego k¹ta skrêtu (maxSteerAngle)
+        // przy u¿yciu wzoru: R = L / tan(delta), gdzie L to rozstaw osi, a delta to maksymalny k¹t skrêtu w radianach.
+        return wheelbase / Mathf.Tan(maxSteerAngle * Mathf.Deg2Rad);
     }
 }

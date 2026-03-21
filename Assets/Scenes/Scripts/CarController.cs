@@ -194,5 +194,9 @@ public class CarController : MonoBehaviour
 
     [HideInInspector] public Vector3 targetParkingSpot;     // Tu zapiszemy idealny œrodek linii
 
-    
+    // Funkcja wyliczaj¹ca minimalny promieñ skretu (R) ze wzoru matematycznego zawartego w PDF insrukcji
+    public float GetTurningRadius()
+    {
+
+    }
 }

@@ -50,8 +50,8 @@ public class ParkState : ICarState
         // Obslugujemy pocz¹tkow¹ fazê parkowania 
         else if (parkingPhase == 0)
         {
-            car.verticalInput = 1f;          // Ustawiamy wartoœæ wejœcia pionowego na 1, co oznacza, ¿e samochód bêdzie porusza³ siê do ty³u (bieg wsteczny). 
-            car.horizontalInput = -0.5f;     // Ustawiamy wartoœæ wejœcia poziomego na -0.5, co oznacza, ¿e samochód bêdzie skrêca³ w lewo podczas poruszania siê do ty³u. Ta wartoœæ mo¿e byæ dostosowana w zale¿noœci od potrzeb i prefer
+            car.verticalInput = -0.5f;       // Ustawiamy wartoœæ wejœcia pionowego na -0.5, co oznacza, ¿e samochód bêdzie porusza³ siê do ty³u (bieg wsteczny) z mniejsz¹ prêdkoœci¹. Ta wartoœæ mo¿e byæ dostosowana w zale¿noœci od potrzeb i prefer   
+            car.horizontalInput = 1f;        // Ustawiamy wartoœæ wejœcia poziomego na 1, co oznacza, ¿e samochód bêdzie skrêca³ maksymalnie w prawo podczas poruszania siê do ty³u. Ta wartoœæ mo¿e byæ dostosowana w zale¿noœci od potrzeb i preferencji dotycz¹cych manewru parkowania. Skrêt w prawo podczas cofania spowoduje, ¿e samochód bêdzie obraca³ siê w lewo, co jest typowym manewrem podczas parkowania równoleg³ego.
             car.breakInput = 0f;             // Ustawiamy wartoœæ wejœcia hamulca na 0, co oznacza, ¿e hamulec nie jest aktywowany podczas tej fazy parkowania. Samochód bêdzie porusza³ siê do ty³u bez hamowania.
 
             // Auto cofaj¹c ze skrêtem w prawo bêdzie obracaæ siê w lewo - kat staje siê ujemny 

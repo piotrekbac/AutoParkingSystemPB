@@ -34,6 +34,7 @@ public class ParkState : ICarState
             // Faza -1: Pe³ne zatrzymanie (Zabijamy pêd samochodu) 
             car.horizontalInput = 0f;     // Ustawiamy wartoœæ wejœcia poziomego na 0, co oznacza, ¿e samochód nie bêdzie skrêca³ podczas tej fazy parkowania. Samochód bêdzie porusza³ siê prosto do przodu lub do ty³u, w zale¿noœci od ustawienia wejœcia pionowego.
             car.verticalInput = 0f;       // Ustawiamy wartoœæ wejœcia pionowego na 0, co oznacza, ¿e samochód nie bêdzie porusza³ siê do przodu ani do ty³u podczas tej fazy parkowania. Samochód bêdzie zatrzymany.
+            car.breakInput = 1f;          // Ustawiamy wartoœæ wejœcia hamulca na 1, co oznacza, ¿e hamulec jest aktywowany podczas tej fazy parkowania. Samochód bêdzie zatrzymany i nie bêdzie siê porusza³, co jest odpowiednie dla fazy pe³nego zatrzymania
         }
 
 

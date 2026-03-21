@@ -2,46 +2,46 @@ using UnityEngine;
 
 // Piotr Bacior 15 722 - WSEI Kraków - Informatyka stosowana
 
-// Nasza klasa SearchState dziedziczy po interfejsie ICarState
 public class SearchState : ICarState
 {
-    // Tworzê zmienn¹ typu CarSensors, która bêdzie przechowywaæ referencjê do komponentu CarSensors przypisanego do samochodu.
     private CarSensors sensors;
-
-    // Zmienne do mierzenia luki 
-    private bool isMeasuringGap = false;        // Flaga, która wskazuje, czy aktualnie mierzymy lukê miêdzy samochodami.
-    private Vector3 gapStartPosition;           // Zmienna do przechowywania pozycji pocz¹tkowej.
-    private float requiredGapWidth = 3.0f;      // Zmienna okreœlaj¹ca wymagan¹ szerokoœæ luki. 
-    private bool spotFound = false;             // Flaga, która wskazuje, czy znaleŸliœmy odpowiednie miejsce.
-
-    // Flaga, która wskazuje, czy samochód min¹³ ju¿ pierwsz¹ przeszkodê.
+    private bool isMeasuringGap = false;
+    private Vector3 gapStartPosition;
+    private float requiredGapWidth = 3.0f;
+    private bool spotFound = false;
     private bool hasPassedFirstObstacle = false;
 
-    // Implementacja metody Enter z interfejsu ICarState.
+    // Dynamiczna pozycja koñca luki (zderzak przedniego auta)
+    private Vector3 gapEndPosition;
+
     public void Enter(CarController car)
     {
-        Debug.Log("FSM: Rozpoczynam poszukiwanie miejsca...");
+        Debug.Log("FSM: [DYNAMICZNY] Szukam miejsca parkingowego...");
         sensors = car.GetComponent<CarSensors>();
     }
 
-    // Implementacja metody UpdateState z interfejsu ICarState.
     public void UpdateState(CarController car)
     {
-        // Je¿eli ju¿ znaleŸliœmy miejsce, nic wiêcej nie robimy - tylko stoimy i pozycjonujemy siê
         if (spotFound)
         {
-            float distanceDrivenPastSpot = Vector3.Distance(gapStartPosition, car.transform.position) - requiredGapWidth;
+            // P-CONTROLLER DLA ZATRZYMANIA:
+            // Musimy podjechaæ do przodu tak, by ty³ naszego auta min¹³ krawêdŸ przedniego auta.
+            // D³ugoœæ naszego auta to ok. 4.5m, wiêc podje¿d¿amy na z góry wyliczon¹ odleg³oœæ od pocz¹tku luki.
+            float targetDriveDistance = requiredGapWidth + 2.0f; // Szerokoœæ luki + zapas na zrównanie siê aut
+            float currentDistance = Vector3.Distance(gapStartPosition, car.transform.position);
 
-            // Podje¿d¿amy dodatkowe 5 metrów do przodu
-            if (distanceDrivenPastSpot < 0f)
+            float distanceLeft = targetDriveDistance - currentDistance;
+
+            if (distanceLeft > 0.1f)
             {
-                car.verticalInput = 0.2f;
+                // P-Controller: Im bli¿ej celu, tym mniejszy gaz (Zwalniamy p³ynnie, nie jedziemy "na sztywno")
+                car.verticalInput = Mathf.Clamp(distanceLeft * 0.2f, 0.1f, 0.3f);
                 car.horizontalInput = 0f;
                 car.breakInput = 0f;
             }
-            // Zatrzymujemy samochód i przechodzimy do stanu parkowania 
             else
             {
+                // Idealna pozycja startowa osi¹gniêta!
                 car.breakInput = 1f;
                 car.verticalInput = 0f;
                 car.ChangeState(new ParkState());
@@ -49,7 +49,6 @@ public class SearchState : ICarState
             return;
         }
 
-        // Odbieramy graczowi klawiaturê - AI bêdzie wciskaæ gaz na 30% mocy
         car.verticalInput = 0.3f;
         car.horizontalInput = 0f;
         car.breakInput = 0f;
@@ -58,45 +57,39 @@ public class SearchState : ICarState
         {
             if (sensors.isObstacleDetected)
             {
-                // Ustawiamy flagê hasPassedFirstObstacle na true, co oznacza, ¿e samochód min¹³ ju¿ pierwsz¹ przeszkodê!
                 hasPassedFirstObstacle = true;
 
-                // Widzimy œcianê/inne auto 
                 if (isMeasuringGap)
                 {
-                    Debug.Log("FSM: Luka by³a za ma³a! Ignoruje i szukam dalej...");
+                    // W³aœnie dojechaliœmy do drugiego auta! (Koniec luki)
+                    gapEndPosition = car.transform.position;
+                    float currentGapWidth = Vector3.Distance(gapStartPosition, gapEndPosition);
+
+                    if (currentGapWidth >= requiredGapWidth)
+                    {
+                        // WYBÓR IDEALNEGO PUNKTU (Œrodek luki w przesuniêciu o wymiar auta)
+                        car.targetParkingSpot = (gapStartPosition + gapEndPosition) / 2f;
+                        car.targetParkingSpot += car.transform.right * -2f; // Wsuwamy punkt docelowy "w g³¹b" luki
+
+                        Debug.Log($"FSM: ZNALEZIONO LUKÊ! Szerokoœæ: {currentGapWidth:F2}m. Wyliczono œrodek!");
+                        spotFound = true;
+                    }
+                    else
+                    {
+                        Debug.Log("FSM: Luka za ma³a, szukam dalej...");
+                    }
                     isMeasuringGap = false;
                 }
             }
             else
             {
-                // TUTAJ JEST KLUCZOWA ZMIANA!
-                // Zanim zaczniemy cokolwiek mierzyæ, sprawdzamy czy minêliœmy ju¿ pierwsz¹ przeszkodê!
-                if (hasPassedFirstObstacle == true)
+                if (hasPassedFirstObstacle)
                 {
-                    // Widzimy pust¹ przestrzeñ (laser jest zielony) i minêliœmy auto!
                     if (!isMeasuringGap)
                     {
                         isMeasuringGap = true;
                         gapStartPosition = car.transform.position;
-                        Debug.Log("FSM: Zauwa¿ono pocz¹tek luki! Rozpoczynam pomiar...");
                     }
-                    else
-                    {
-                        // Samochód jedzie wzd³u¿ luki, a my mierzymy odleg³oœæ
-                        float currentGapWidth = Vector3.Distance(gapStartPosition, car.transform.position);
-
-                        if (currentGapWidth >= requiredGapWidth)
-                        {
-                            Debug.Log($"FSM: SUKCES! Znalaz³em idealne miejsce (Szerokoœæ: {currentGapWidth:F2}m). Zatrzymujê auto!");
-                            spotFound = true;
-                        }
-                    }
-                }
-                else
-                {
-                    // Auto jest na samym starcie gry przed pierwsz¹ kostk¹. 
-                    // Laser jest zielony, ale IGNORUJEMY to, bo nie minêliœmy jeszcze ¿adnego auta.
                 }
             }
         }
@@ -104,6 +97,6 @@ public class SearchState : ICarState
 
     public void Exit(CarController car)
     {
-        Debug.Log("FSM: Zakoñczy³em poszukiwanie miejsca.");
+        Debug.Log("FSM: Pozycjonowanie zakoñczone, oddajê stery do ParkState.");
     }
 }

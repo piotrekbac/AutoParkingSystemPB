@@ -50,6 +50,12 @@ public class CarSensors : MonoBehaviour
                 // Rysowanie CZERWONEGO lasera w edytorze - uderzenie w przeszkodê 
                 Debug.DrawLine(origin, direction * hit.distance, Color.red);  // Rysujê liniê od punktu pocz¹tkowego do punktu trafienia, u¿ywaj¹c koloru czerwonego, aby wizualizowaæ wykrycie przeszkody.
             }
+
+            // Jeœli odleg³oœæ do wykrytej przeszkody jest mniejsza lub równa 1.0f, nie aktualizujê informacji o wykryciu przeszkody ani odleg³oœci, poniewa¿ uznajê, ¿e przeszkoda jest zbyt blisko, aby by³a istotna dla dalszej jazdy. Rysujê równie¿ ¿ó³ty laser, aby wizualizowaæ wykrycie przeszkody, ale z informacj¹, ¿e jest ona bardzo blisko.
+            else
+            {
+
+            }
         }
 
 

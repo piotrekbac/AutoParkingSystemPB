@@ -7,7 +7,7 @@ public class SearchState : ICarState
     private CarSensors sensors;
     private bool isMeasuringGap = false;
     private Vector3 gapStartPosition;
-    private float requiredGapWidth = 5.5f; // Optymalna luka dla naszego 4.5m auta
+    private float requiredGapWidth = 5.5f;
     private bool spotFound = false;
     private bool hasPassedFirstObstacle = false;
     private Vector3 gapEndPosition;
@@ -22,11 +22,10 @@ public class SearchState : ICarState
     {
         if (spotFound)
         {
-            // Mierzymy odleg³oœæ od ZDERZAKA drugiego auta
             float distanceDrivenPastEnd = Vector3.Distance(gapEndPosition, car.transform.position);
 
-            // Musimy przejechaæ 3 metry dalej, by idealnie ustawiæ siê RÓWNOLEGLE do drugiego auta
-            if (distanceDrivenPastEnd < 3.0f)
+            // FINALNA ZMIANA: Zatrzymujemy siê tu¿ za krawêdzi¹ luki (0.5m), a nie na koñcu klocka!
+            if (distanceDrivenPastEnd < 0.5f)
             {
                 car.verticalInput = 0.2f;
                 car.horizontalInput = 0f;
@@ -34,7 +33,6 @@ public class SearchState : ICarState
             }
             else
             {
-                // Jesteœmy na pozycji startowej! Oddajemy kontrolê do ParkState
                 car.brakeInput = 1f;
                 car.verticalInput = 0f;
                 car.ChangeState(new ParkState());
@@ -60,7 +58,7 @@ public class SearchState : ICarState
                     if (currentGapWidth >= requiredGapWidth)
                     {
                         car.targetParkingSpot = (gapStartPosition + gapEndPosition) / 2f;
-                        Debug.Log($"FSM: SUKCES! Znalaz³em lukê. Ma ona {currentGapWidth:F2} metrów. Ustawiam siê do cofania...");
+                        Debug.Log($"FSM: SUKCES! Znalaz³em lukê. Zatrzymujê siê natychmiast!");
                         spotFound = true;
                     }
                     else

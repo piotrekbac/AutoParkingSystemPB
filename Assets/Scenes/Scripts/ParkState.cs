@@ -1,101 +1,149 @@
-using UnityEngine;
-
-// Piotr Bacior 15 722 - WSEI Kraków - Informatyka stosowana
-
+ï»¿using UnityEngine;
+// Piotr Bacior 15 722 - WSEI KrakÃ³w - Informatyka stosowana
 public class ParkState : ICarState
 {
     private int parkingPhase = -1;
     private float timer = 0f;
+    private float entryAngle = 0f;
+
+    // ÅÄ…czny czas cofania w fazach 0+1+2 - twardy limit zapobiegajÄ…cy uderzeniu w tylnÄ… Å›cianÄ™
+    private float totalReverseTime = 0f;
+    private const float MAX_REVERSE_TIME = 5.5f; // sekund cofania maksymalnie
 
     public void Enter(CarController car)
     {
         Debug.Log("FSM: Zaczynam manewr parkowania...");
         parkingPhase = -1;
         timer = 0f;
+        totalReverseTime = 0f;
+        entryAngle = GetNormalizedAngle(car.transform.eulerAngles.y);
+        Debug.Log($"FSM ParkState: KÄ…t wejÅ›cia = {entryAngle:F1}Â°");
     }
 
     public void UpdateState(CarController car)
     {
-        float currentAngle = GetNormalizedAngle(car.transform.eulerAngles.y);
+        float absoluteAngle = GetNormalizedAngle(car.transform.eulerAngles.y);
+        float deltaAngle = GetNormalizedAngle(absoluteAngle - entryAngle);
 
+        // Liczymy Å‚Ä…czny czas cofania (fazy 0, 1, 2) - twardy limit antykolizyjny
+        if (parkingPhase >= 0 && parkingPhase <= 2)
+        {
+            totalReverseTime += Time.deltaTime;
+            if (totalReverseTime > MAX_REVERSE_TIME)
+            {
+                // Za dÅ‚ugo cofamy - wymuÅ› kontrÄ™ i zatrzymaj
+                car.verticalInput = 0f;
+                car.brakeInput = 1f;
+                parkingPhase = 3;
+                Debug.LogWarning("FSM: Limit czasu cofania! PrzechodzÄ™ do P-Controllera.");
+                return;
+            }
+        }
+
+        // FAZA -1: PeÅ‚ny stop przed manewrem
         if (parkingPhase == -1)
         {
             car.horizontalInput = 0f;
             car.verticalInput = 0f;
             car.brakeInput = 1f;
-
             timer += Time.deltaTime;
             if (timer > 1.0f)
             {
                 parkingPhase = 0;
-                timer = 0f; // Resetujemy timer dla nowej fazy Twojego pomys³u!
-                Debug.Log("FSM: Zaczynam cofaæ na wprost (Faza dodana przez Piotra!)...");
+                timer = 0f;
+                Debug.Log("FSM: [Faza 0] Cofam na wprost.");
             }
         }
+        // FAZA 0: Cofanie na wprost - wydÅ‚uÅ¼ono z 1.5s do 2.2s
         else if (parkingPhase == 0)
         {
-            // FAZA 0 (TWÓJ POMYS£): Cofamy na prostych ko³ach, ¿eby schowaæ zderzak!
-            car.verticalInput = -0.4f;       // Powolne cofanie
-            car.horizontalInput = 0f;        // KIEROWNICA PROSTO!
+            car.verticalInput = -0.3f;
+            car.horizontalInput = 0f;
             car.brakeInput = 0f;
-
             timer += Time.deltaTime;
-            // Cofamy prosto przez 1 sekundê (to wystarczy, by min¹æ róg auta z przodu)
-            if (timer > 1.0f)
+            if (timer > 1.8f)
             {
                 parkingPhase = 1;
-                Debug.Log("FSM: Ty³ bezpieczny! £amiê auto w prawo.");
+                Debug.Log("FSM: [Faza 1] TyÅ‚ wysuniÄ™ty. SkrÄ™t w prawo!");
             }
         }
+        // FAZA 1: Cofanie ze skrÄ™tem w prawo
         else if (parkingPhase == 1)
         {
-            // FAZA 1: Wkrêcanie ty³u w lukê (skrêt w prawo)
-            car.verticalInput = -0.5f;
-            car.horizontalInput = 1f;        // MAX W PRAWO
-            car.brakeInput = 0f;
+            // Czujnik prawego boku przodu - jeÅ›li Å›ciana za blisko, cofamy chwilÄ™ prosto
+            float frontRightDist = GetFrontRightDistance(car);
+            if (frontRightDist < 0.5f)
+            {
+                car.verticalInput = -0.2f;
+                car.horizontalInput = 0f;
+                car.brakeInput = 0f;
+                Debug.LogWarning($"FSM: Prawy przÃ³d za blisko ({frontRightDist:F2}m)! Cofam prosto.");
+                return;
+            }
 
-            if (currentAngle <= -35f)
+            car.verticalInput = -0.35f;
+            car.horizontalInput = 1f;
+            car.brakeInput = 0f;
+            if (deltaAngle <= -28f)
             {
                 parkingPhase = 2;
-                Debug.Log("FSM: K¹t -35 stopni osi¹gniêty. Robiê KONTRE w lewo!");
+                Debug.Log($"FSM: [Faza 2] Delta={deltaAngle:F1}. Kontra w lewo!");
             }
         }
+        // FAZA 2: Kontra - prostowanie auta w luce
         else if (parkingPhase == 2)
         {
-            // FAZA 2: Prostowanie auta w luce
-            car.horizontalInput = -1f;      // MAX W LEWO
-            car.verticalInput = -0.5f;
+            car.horizontalInput = -1f;
+            car.verticalInput = -0.35f;
             car.brakeInput = 0f;
-
-            if (currentAngle >= -1f)
+            if (deltaAngle >= -3f)
             {
                 parkingPhase = 3;
-                Debug.Log("FSM: Auto jest równolegle. Uruchamiam P-Controller by wyœrodkowaæ!");
+                Debug.Log($"FSM: [Faza 3] Rownolegle delta={deltaAngle:F1}. P-Controller!");
             }
         }
+        // FAZA 3: P-Controller - wyÅ›rodkowanie wzdÅ‚uÅ¼ lokalnej osi pojazdu
         else if (parkingPhase == 3)
         {
-            // FAZA 3: P-Controller - WYMÓG Z PDF
-            car.horizontalInput = 0f; // Prostujemy kierownicê na amen
-
-            float errorDistance = car.transform.position.z - car.targetParkingSpot.z;
-
+            car.horizontalInput = 0f;
+            Vector3 toTarget = car.targetParkingSpot - car.transform.position;
+            float errorDistance = Vector3.Dot(toTarget, car.transform.forward);
             if (Mathf.Abs(errorDistance) > 0.15f)
             {
                 car.brakeInput = 0f;
-                car.verticalInput = Mathf.Clamp(-errorDistance * 0.5f, -0.3f, 0.3f);
+                car.verticalInput = Mathf.Clamp(errorDistance * 0.5f, -0.3f, 0.3f);
             }
             else
             {
                 car.verticalInput = 0f;
                 car.brakeInput = 1f;
-                Debug.Log("FSM: ZAPARKOWANO PERFEKCYJNIE NA ŒRODKU! 100% ZADANIA WYKONANE!");
+                Debug.Log("FSM: ZAPARKOWANO PERFEKCYJNIE!");
             }
         }
     }
 
-    public void Exit(CarController car)
-    { }
+    // Raycast z prawego przedniego rogu - wykrywa Å›cianÄ™ pierwszego bloku podczas skrÄ™tu
+    private float GetFrontRightDistance(CarController car)
+    {
+        Vector3 origin = car.transform.position
+                         + car.transform.forward * 2.25f
+                         + car.transform.right * 0.9f;
+        origin.y = car.transform.position.y + 0.3f;
+        Vector3 direction = car.transform.right;
+        direction.y = 0f;
+        direction.Normalize();
+        RaycastHit hit;
+        if (Physics.Raycast(origin, direction, out hit, 1.5f))
+        {
+            if (hit.collider.transform.IsChildOf(car.transform)) return float.MaxValue;
+            Debug.DrawRay(origin, direction * hit.distance, Color.red);
+            return hit.distance;
+        }
+        Debug.DrawRay(origin, direction * 1.5f, Color.white);
+        return float.MaxValue;
+    }
+
+    public void Exit(CarController car) { }
 
     private float GetNormalizedAngle(float angle)
     {

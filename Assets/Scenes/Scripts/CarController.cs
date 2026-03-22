@@ -1,14 +1,14 @@
 using UnityEngine;
-
 // Piotr Bacior 15 722 - WSEI Kraków - Informatyka stosowana
-
 public class CarController : MonoBehaviour
 {
     [Header("Referencje - Wheel Collidery (Fizyka)")]
     public WheelCollider frontLeftCollider;
     public WheelCollider frontRightCollider;
     public WheelCollider rearLeftCollider;
-    public WheelCollider rearRightCollider; [Header("Referencje - Modele 3D kó³ (Wygl¹d)")]
+    public WheelCollider rearRightCollider;
+
+    [Header("Referencje - Modele 3D kó³ (Wygl¹d)")]
     public Transform frontLeftVisual;
     public Transform frontRightVisual;
     public Transform rearLeftVisual;
@@ -25,7 +25,8 @@ public class CarController : MonoBehaviour
     public float verticalInput;
     public float horizontalInput;
     public float brakeInput;
-    [HideInInspector] public Vector3 targetParkingSpot; // Zmienna przechowuj¹ca œrodek luki
+
+    [HideInInspector] public Vector3 targetParkingSpot;
 
     private Rigidbody rb;
     private ICarState currentState;
@@ -64,6 +65,7 @@ public class CarController : MonoBehaviour
     private void HandleSteeringAckermann()
     {
         float steerAngle = horizontalInput * maxSteerAngle;
+
         if (Mathf.Abs(steerAngle) > 0.01f)
         {
             float turnRadius = wheelbase / Mathf.Tan(steerAngle * Mathf.Deg2Rad);

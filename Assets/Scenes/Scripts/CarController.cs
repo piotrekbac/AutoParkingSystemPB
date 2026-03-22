@@ -1,14 +1,20 @@
 using UnityEngine;
+
 // Piotr Bacior 15 722 - WSEI Kraków - Informatyka stosowana
+
 public class CarController : MonoBehaviour
 {
+    // NOWOŒÆ: Wybór typu parkowania (Ustawiane z poziomu Inspektora!)
+    public enum ParkingMode { Parallel, Perpendicular, Dynamic }
+
+    [Header("Tryb Mapy")]
+    public ParkingMode currentMode = ParkingMode.Parallel;
+
     [Header("Referencje - Wheel Collidery (Fizyka)")]
     public WheelCollider frontLeftCollider;
     public WheelCollider frontRightCollider;
     public WheelCollider rearLeftCollider;
-    public WheelCollider rearRightCollider;
-
-    [Header("Referencje - Modele 3D kó³ (Wygl¹d)")]
+    public WheelCollider rearRightCollider; [Header("Referencje - Modele 3D kó³ (Wygl¹d)")]
     public Transform frontLeftVisual;
     public Transform frontRightVisual;
     public Transform rearLeftVisual;
@@ -35,6 +41,8 @@ public class CarController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         if (centerOfMass != null) rb.centerOfMass = centerOfMass.localPosition;
+
+        // Zawsze zaczynamy od szukania miejsca, ale SearchState odczyta sobie tryb mapy z currentMode!
         ChangeState(new SearchState());
     }
 

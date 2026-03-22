@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
-    // NOWOŒÆ: Wybór typu parkowania (Ustawiane z poziomu Inspektora!)
-    public enum ParkingMode { Parallel, Perpendicular, Dynamic }
+    public enum ParkingMode { Parallel, Perpendicular }
 
     [Header("Tryb Mapy")]
-    public ParkingMode currentMode = ParkingMode.Parallel;
-
-    [Header("Referencje - Wheel Collidery (Fizyka)")]
+    public ParkingMode currentMode = ParkingMode.Parallel; [Header("Referencje - Wheel Collidery (Fizyka)")]
     public WheelCollider frontLeftCollider;
     public WheelCollider frontRightCollider;
     public WheelCollider rearLeftCollider;
@@ -18,21 +15,16 @@ public class CarController : MonoBehaviour
     public Transform frontLeftVisual;
     public Transform frontRightVisual;
     public Transform rearLeftVisual;
-    public Transform rearRightVisual;
-
-    [Header("Ustawienia Pojazdu")]
+    public Transform rearRightVisual; [Header("Ustawienia Pojazdu")]
     public Transform centerOfMass;
     public float motorForce = 1500f;
     public float maxSteerAngle = 35f;
     public float wheelbase = 2.7f;
     public float trackWidth = 1.8f;
 
-    // --- ZMIENNE DO STEROWANIA PRZEZ FSM ---
     public float verticalInput;
     public float horizontalInput;
-    public float brakeInput;
-
-    [HideInInspector] public Vector3 targetParkingSpot;
+    public float brakeInput; [HideInInspector] public Vector3 targetParkingSpot;
 
     private Rigidbody rb;
     private ICarState currentState;
@@ -42,7 +34,6 @@ public class CarController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         if (centerOfMass != null) rb.centerOfMass = centerOfMass.localPosition;
 
-        // Zawsze zaczynamy od szukania miejsca, ale SearchState odczyta sobie tryb mapy z currentMode!
         ChangeState(new SearchState());
     }
 

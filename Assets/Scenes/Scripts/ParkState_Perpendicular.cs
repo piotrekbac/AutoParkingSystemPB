@@ -1,85 +1,134 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-// Piotr Bacior 15 722 - WSEI Kraków - Informatyka stosowana
+// Piotr Bacior 15 722 - WSEI KrakÃ³w - Informatyka stosowana
 
 public class ParkState_Perpendicular : ICarState
 {
     private int parkingPhase = -1;
     private float timer = 0f;
-    private float entryAngle = 0f;
+    private float phase0StartAngle = 0f;
+    private const float REVERSE_SPEED = -0.35f;
+    private const float CAR_HALF_LEN = 2.25f;
 
     public void Enter(CarController car)
     {
-        Debug.Log("FSM: Zaczynam manewr parkowania PROSTOPAD£EGO (90 stopni)...");
+        Debug.Log("FSM: Zaczynam manewr parkowania PROSTOPADÅEGO TYÅEM...");
         parkingPhase = -1;
         timer = 0f;
-        entryAngle = GetNormalizedAngle(car.transform.eulerAngles.y);
+        phase0StartAngle = GetNorm(car.transform.eulerAngles.y);
     }
 
     public void UpdateState(CarController car)
     {
-        float absoluteAngle = GetNormalizedAngle(car.transform.eulerAngles.y);
-        float deltaAngle = GetNormalizedAngle(absoluteAngle - entryAngle);
+        float absAngle = GetNorm(car.transform.eulerAngles.y);
+        float deltaPhase = GetNorm(absAngle - phase0StartAngle);
 
         if (parkingPhase == -1)
         {
-            // FAZA -1: Zatrzymanie
             car.horizontalInput = 0f;
             car.verticalInput = 0f;
             car.brakeInput = 1f;
             timer += Time.deltaTime;
+
             if (timer > 1.0f)
             {
                 parkingPhase = 0;
-                Debug.Log("FSM: [Faza 0] £amiê kierownicê na maxa w prawo i cofam!");
+                timer = 0f;
+                phase0StartAngle = GetNorm(car.transform.eulerAngles.y);
+                Debug.Log("FSM Perp [Faza 0]: Cofam ze skrÄ™tem w prawo (tyÅ‚ w prawo = w lukÄ™).");
             }
         }
         else if (parkingPhase == 0)
         {
-            // FAZA 0: Skrêt o 90 stopni do ty³u
-            car.verticalInput = -0.4f;
-            car.horizontalInput = 1f; // Kierownica MAX w prawo
+            // Cofanie ze skrÄ™tem w PRAWO â†’ tyÅ‚ idzie w PRAWO â†’ w lukÄ™
+            car.verticalInput = REVERSE_SPEED;
+            car.horizontalInput = 1f;
             car.brakeInput = 0f;
 
-            // Sprawdzamy czy auto obróci³o siê o blisko 90 stopni wzglêdem pozycji wejœciowej
-            if (deltaAngle <= -85f)
+            // ZMIANA 1: ZwiÄ™kszamy kÄ…t z -83 na -89 stopni, Å¼eby auto obrÃ³ciÅ‚o siÄ™ rÃ³wnolegle do innych aut!
+            if (deltaPhase <= -89f)
             {
                 parkingPhase = 1;
-                Debug.Log("FSM: [Faza 1] K¹t osi¹gniêty (-90st). Prostujê ko³a i cofam w g³¹b luki.");
+                timer = 0f;
+                Debug.Log($"FSM Perp [Faza 1]: {deltaPhase:F1}Â°. AktywujÄ™ asystenta toru jazdy i cofam w gÅ‚Ä…b.");
             }
         }
         else if (parkingPhase == 1)
         {
-            // FAZA 1: Jazda prosto do ty³u w g³¹b zatoczki
-            car.horizontalInput = 0f; // Ko³a prosto
-            car.verticalInput = -0.4f;
+            // ZMIANA 2: P-Controller dla Kierownicy! 
+            // Zamiast ustawiaÄ‡ koÅ‚a "na sztywno" na 0, auto samo pilnuje, Å¼eby mieÄ‡ rÃ³wne 90 stopni od pozycji startowej.
+            float targetAngle = GetNorm(phase0StartAngle - 90f);
+            float headingError = GetNorm(absAngle - targetAngle);
+
+            // Mikro-korekty: jeÅ›li auto jest krzywo, lekko skrÄ™ca by wyrÃ³wnaÄ‡ tor jazdy.
+            car.horizontalInput = Mathf.Clamp(headingError * 0.05f, -1f, 1f);
+            car.verticalInput = REVERSE_SPEED;
             car.brakeInput = 0f;
 
-            // Ogranicznik wjazdu (np. z ty³u jest œciana lub auto wyjecha³o odpowiednio g³êboko)
-            // U¿ywamy sztucznego timera (w prawdziwym œwiecie u¿ylibyœmy tylnego czujnika)
             timer += Time.deltaTime;
-            if (timer > 4.5f) // Cofamy przez 3.5 sekundy (dostosuj ten czas, jeœli uderza w ty³)
+
+            float rearDist = GetRearDist(car);
+            float rightDist = GetRightDist(car);
+            bool aligned = rightDist < 3.5f;
+
+            if (rearDist < 1.0f || timer > 3.5f || aligned)
             {
                 parkingPhase = 2;
-                Debug.Log("FSM: Zaparkowano prostopadle!");
+                Debug.Log($"FSM Perp [Faza 2]: STOP! tyÅ‚={rearDist:F2}m right={rightDist:F2}m t={timer:F1}s");
             }
         }
         else if (parkingPhase == 2)
         {
-            // FAZA 2: STOP
             car.horizontalInput = 0f;
             car.verticalInput = 0f;
             car.brakeInput = 1f;
+            Debug.Log("FSM Perp: ZAPARKOWANO PROSTOPADLE TYÅEM! âœ“");
         }
+    }
+
+    private float GetRearDist(CarController car)
+    {
+        Vector3 origin = car.transform.position - car.transform.forward * CAR_HALF_LEN;
+        origin.y = car.transform.position.y + 0.3f;
+        Vector3 dir = -car.transform.forward;
+        dir.y = 0f; dir.Normalize();
+
+        RaycastHit hit;
+        if (Physics.Raycast(origin, dir, out hit, 4f))
+        {
+            if (hit.collider.transform.IsChildOf(car.transform)) return float.MaxValue;
+            Debug.DrawRay(origin, dir * hit.distance, Color.magenta);
+            return hit.distance;
+        }
+        Debug.DrawRay(origin, dir * 4f, Color.cyan);
+        return float.MaxValue;
+    }
+
+    private float GetRightDist(CarController car)
+    {
+        Vector3 origin = car.transform.position + car.transform.right * 1.0f;
+        origin.y = car.transform.position.y + 0.3f;
+        Vector3 dir = car.transform.right;
+        dir.y = 0f; dir.Normalize();
+
+        RaycastHit hit;
+        if (Physics.Raycast(origin, dir, out hit, 5f))
+        {
+            if (hit.collider.transform.IsChildOf(car.transform)) return float.MaxValue;
+            Debug.DrawRay(origin, dir * hit.distance, Color.yellow);
+            return hit.distance;
+        }
+        Debug.DrawRay(origin, dir * 5f, Color.white);
+        return float.MaxValue;
     }
 
     public void Exit(CarController car) { }
 
-    private float GetNormalizedAngle(float angle)
+    private float GetNorm(float a)
     {
-        angle = angle % 360f;
-        if (angle > 180f) return angle - 360f;
-        if (angle < -180f) return angle + 360f;
-        return angle;
+        a %= 360f;
+        if (a > 180f) return a - 360f;
+        if (a < -180f) return a + 360f;
+        return a;
     }
 }

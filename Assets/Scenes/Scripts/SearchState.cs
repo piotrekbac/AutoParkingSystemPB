@@ -1,38 +1,39 @@
-using UnityEngine;
-
-// Piotr Bacior 15 722 - WSEI KrakÛw - Informatyka stosowana
-
+Ôªøusing UnityEngine;
+// Piotr Bacior 15 722 - WSEI Krak√≥w - Informatyka stosowana
 public class SearchState : ICarState
 {
     private CarSensors sensors;
     private bool isMeasuringGap = false;
     private Vector3 gapStartPosition;
     private Vector3 gapEndPosition;
-
-    // Zmienne, ktÛre dostosujπ siÍ same do rodzaju mapy!
     private float requiredGapWidth;
-    private float overshootTarget; // Jak daleko za lukÍ musimy odjechaÊ
-
+    private float overshootTarget;
     private bool spotFound = false;
     private bool hasPassedFirstObstacle = false;
 
     public void Enter(CarController car)
     {
         sensors = car.GetComponent<CarSensors>();
-
-        // UNIWERSALNOå∆: MÛzg sam dobiera parametry na podstawie wybranej mapy!
         if (car.currentMode == CarController.ParkingMode.Perpendicular)
         {
-            Debug.Log("FSM: [MAPA 1] Szukam luki PROSTOPAD£EJ (Min. 3.0m)...");
-            requiredGapWidth = 3.0f; // Luka prostopad≥a jest wÍøsza
-            overshootTarget = 3.0f;  // Musimy odjechaÊ dalej, by mieÊ miejsce na z≥amanie auta o 90 stopni
+            Debug.Log("FSM: [MAPA 1] Szukam luki PROSTOPAD≈ÅEJ...");
+            requiredGapWidth = 3.0f;
+            // Dla cofania ty≈Çem o 90¬∞:
+            // Auto musi przejechaƒá za ≈öRODEK luki o ~po≈Çowƒô d≈Çugo≈õci auta (2.25m)
+            // ≈ºeby tylna o≈õ znalaz≈Ça siƒô przy ≈õrodku luki podczas manewru
+            // gapEndPosition = koniec luki, ≈õrodek = gapEnd - gapWidth/2
+            // Przeje≈ºd≈ºamy za gapEnd o: po≈Çowa luki (‚âà1.5m) + po≈Çowa auta (2.25m) = ~3.5m
+            overshootTarget = 5.0f;
         }
         else
         {
-            Debug.Log("FSM:[MAPA 2] Szukam luki R”WNOLEG£EJ (Min. 5.5m)...");
+            Debug.Log("FSM: [MAPA 2] Szukam luki R√ìWNOLEG≈ÅEJ (Koperta)...");
             requiredGapWidth = 5.5f;
-            overshootTarget = 0.5f;  // Stajemy niemal od razu za autem z przodu
+            overshootTarget = 0.5f;
         }
+        isMeasuringGap = false;
+        hasPassedFirstObstacle = false;
+        spotFound = false;
     }
 
     public void UpdateState(CarController car)
@@ -40,8 +41,6 @@ public class SearchState : ICarState
         if (spotFound)
         {
             float distanceDrivenPastEnd = Vector3.Distance(gapEndPosition, car.transform.position);
-
-            // Zatrzymujemy siÍ w idealnym miejscu zaleønym od trybu parkowania
             if (distanceDrivenPastEnd < overshootTarget)
             {
                 car.verticalInput = 0.2f;
@@ -52,12 +51,17 @@ public class SearchState : ICarState
             {
                 car.brakeInput = 1f;
                 car.verticalInput = 0f;
+                car.horizontalInput = 0f;
 
-                // Przekazanie pa≥eczki do odpowiedniego algorytmu parkowania!
-                if (car.currentMode == CarController.ParkingMode.Perpendicular)
-                    car.ChangeState(new ParkState_Perpendicular());
-                else
-                    car.ChangeState(new ParkState());
+                // Czekamy na pe≈Çny stop przed zmianƒÖ stanu
+                Rigidbody rb = car.GetComponent<Rigidbody>();
+                if (rb == null || rb.linearVelocity.magnitude < 0.05f)
+                {
+                    if (car.currentMode == CarController.ParkingMode.Perpendicular)
+                        car.ChangeState(new ParkState_Perpendicular());
+                    else
+                        car.ChangeState(new ParkState());
+                }
             }
             return;
         }
@@ -71,21 +75,19 @@ public class SearchState : ICarState
             if (sensors.isObstacleDetected)
             {
                 hasPassedFirstObstacle = true;
-
                 if (isMeasuringGap)
                 {
                     gapEndPosition = car.transform.position;
                     float currentGapWidth = Vector3.Distance(gapStartPosition, gapEndPosition);
-
                     if (currentGapWidth >= requiredGapWidth)
                     {
                         car.targetParkingSpot = (gapStartPosition + gapEndPosition) / 2f;
-                        Debug.Log($"FSM: SUKCES! Znalaz≥em lukÍ ({currentGapWidth:F2}m). Odjeødøam do przodu...");
+                        Debug.Log($"FSM: Znalaz≈Çem lukƒô {currentGapWidth:F2}m! DociƒÖgam do pozycji manewru.");
                         spotFound = true;
                     }
                     else
                     {
-                        Debug.Log($"FSM: Luka za ma≥a ({currentGapWidth:F2}m < {requiredGapWidth}m). Szukam dalej!");
+                        Debug.Log($"FSM: Luka {currentGapWidth:F2}m za ma≈Ça.");
                     }
                     isMeasuringGap = false;
                 }
@@ -96,10 +98,14 @@ public class SearchState : ICarState
                 {
                     isMeasuringGap = true;
                     gapStartPosition = car.transform.position;
+                    Debug.Log("FSM: Luka siƒô zaczyna.");
                 }
             }
         }
     }
 
-    public void Exit(CarController car) { }
+    public void Exit(CarController car)
+    {
+        Debug.Log("FSM SearchState: EXIT");
+    }
 }

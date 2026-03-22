@@ -6,16 +6,15 @@ public class ParkState : ICarState
     private float timer = 0f;
     private float entryAngle = 0f;
 
-    // Łączny czas cofania w fazach 0+1+2 - twardy limit zapobiegający uderzeniu w tylną ścianę
-    private float totalReverseTime = 0f;
-    private const float MAX_REVERSE_TIME = 5.5f; // sekund cofania maksymalnie
+    // Minimalna odległość tylnego zderzaka od przeszkody zanim zatrzymamy cofanie
+    // Zwiększ jeśli nadal uderza, zmniejsz jeśli zatrzymuje się za wcześnie
+    private const float REAR_STOP_DISTANCE = 0.8f;
 
     public void Enter(CarController car)
     {
         Debug.Log("FSM: Zaczynam manewr parkowania...");
         parkingPhase = -1;
         timer = 0f;
-        totalReverseTime = 0f;
         entryAngle = GetNormalizedAngle(car.transform.eulerAngles.y);
         Debug.Log($"FSM ParkState: Kąt wejścia = {entryAngle:F1}°");
     }
@@ -25,17 +24,29 @@ public class ParkState : ICarState
         float absoluteAngle = GetNormalizedAngle(car.transform.eulerAngles.y);
         float deltaAngle = GetNormalizedAngle(absoluteAngle - entryAngle);
 
-        // Liczymy łączny czas cofania (fazy 0, 1, 2) - twardy limit antykolizyjny
+        // CZUJNIK TYLNY - działa we wszystkich fazach cofania (0, 1, 2)
+        // Rzuca trzy promienie z tylnego zderzaka: środek, lewy róg, prawy róg
+        // Reaguje na NAJKRÓTSZY dystans - niezależnie od kąta auta
         if (parkingPhase >= 0 && parkingPhase <= 2)
         {
-            totalReverseTime += Time.deltaTime;
-            if (totalReverseTime > MAX_REVERSE_TIME)
+            float rearDist = GetRearDistance(car);
+            if (rearDist < REAR_STOP_DISTANCE)
             {
-                // Za długo cofamy - wymuś kontrę i zatrzymaj
                 car.verticalInput = 0f;
                 car.brakeInput = 1f;
-                parkingPhase = 3;
-                Debug.LogWarning("FSM: Limit czasu cofania! Przechodzę do P-Controllera.");
+                car.horizontalInput = 0f;
+                Debug.LogWarning($"FSM: STOP! Tył {rearDist:F2}m od ściany. Przechodzę do kontry.");
+                // Nie przerywamy - przechodzimy do fazy 2 (kontra) żeby auto nie stało w poprzek
+                if (parkingPhase == 1)
+                {
+                    parkingPhase = 2;
+                    Debug.Log("FSM: Wymuszam przejście do fazy 2 (kontra).");
+                }
+                else if (parkingPhase == 0 || parkingPhase == 2)
+                {
+                    parkingPhase = 3;
+                    Debug.Log("FSM: Wymuszam przejście do fazy 3 (P-Controller).");
+                }
                 return;
             }
         }
@@ -54,7 +65,7 @@ public class ParkState : ICarState
                 Debug.Log("FSM: [Faza 0] Cofam na wprost.");
             }
         }
-        // FAZA 0: Cofanie na wprost - wydłużono z 1.5s do 2.2s
+        // FAZA 0: Cofanie na wprost
         else if (parkingPhase == 0)
         {
             car.verticalInput = -0.3f;
@@ -70,7 +81,7 @@ public class ParkState : ICarState
         // FAZA 1: Cofanie ze skrętem w prawo
         else if (parkingPhase == 1)
         {
-            // Czujnik prawego boku przodu - jeśli ściana za blisko, cofamy chwilę prosto
+            // Czujnik prawego boku przodu - ochrona przed pierwszym blokiem
             float frontRightDist = GetFrontRightDistance(car);
             if (frontRightDist < 0.5f)
             {
@@ -99,7 +110,7 @@ public class ParkState : ICarState
             if (deltaAngle >= -3f)
             {
                 parkingPhase = 3;
-                Debug.Log($"FSM: [Faza 3] Rownolegle delta={deltaAngle:F1}. P-Controller!");
+                Debug.Log($"FSM: [Faza 3] Równolegle delta={deltaAngle:F1}. P-Controller!");
             }
         }
         // FAZA 3: P-Controller - wyśrodkowanie wzdłuż lokalnej osi pojazdu
@@ -122,7 +133,29 @@ public class ParkState : ICarState
         }
     }
 
-    // Raycast z prawego przedniego rogu - wykrywa ścianę pierwszego bloku podczas skrętu
+    /// Trzy raycaste z tylnego zderzaka: środek + lewy róg + prawy róg.
+    /// Zwraca najkrótszy dystans - niezależnie od kąta skrętu.
+    private float GetRearDistance(CarController car)
+    {
+        Vector3 back = -car.transform.forward;
+        back.y = 0f;
+        back.Normalize();
+        float y = car.transform.position.y + 0.3f;
+
+        // Trzy punkty startowe: środek tylnego zderzaka, lewy róg, prawy róg
+        Vector3 centerOrigin = car.transform.position - car.transform.forward * 2.25f;
+        Vector3 leftOrigin = centerOrigin - car.transform.right * 0.7f;
+        Vector3 rightOrigin = centerOrigin + car.transform.right * 0.7f;
+        centerOrigin.y = leftOrigin.y = rightOrigin.y = y;
+
+        float distCenter = Raycast(centerOrigin, back, 2.0f, car, Color.magenta);
+        float distLeft = Raycast(leftOrigin, back, 2.0f, car, Color.magenta);
+        float distRight = Raycast(rightOrigin, back, 2.0f, car, Color.magenta);
+
+        return Mathf.Min(distCenter, Mathf.Min(distLeft, distRight));
+    }
+
+    /// Raycast z prawego przedniego rogu - ochrona przed pierwszym blokiem.
     private float GetFrontRightDistance(CarController car)
     {
         Vector3 origin = car.transform.position
@@ -132,14 +165,20 @@ public class ParkState : ICarState
         Vector3 direction = car.transform.right;
         direction.y = 0f;
         direction.Normalize();
+        return Raycast(origin, direction, 1.5f, car, Color.red);
+    }
+
+    /// Pomocnicza metoda - rzuca jeden raycast i zwraca dystans (float.MaxValue = brak hitu).
+    private float Raycast(Vector3 origin, Vector3 direction, float length, CarController car, Color color)
+    {
         RaycastHit hit;
-        if (Physics.Raycast(origin, direction, out hit, 1.5f))
+        if (Physics.Raycast(origin, direction, out hit, length))
         {
             if (hit.collider.transform.IsChildOf(car.transform)) return float.MaxValue;
-            Debug.DrawRay(origin, direction * hit.distance, Color.red);
+            Debug.DrawRay(origin, direction * hit.distance, color);
             return hit.distance;
         }
-        Debug.DrawRay(origin, direction * 1.5f, Color.white);
+        Debug.DrawRay(origin, direction * length, Color.white);
         return float.MaxValue;
     }
 
